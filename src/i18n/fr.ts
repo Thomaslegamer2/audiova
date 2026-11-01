@@ -2,7 +2,7 @@ export const fr = {
   meta: {
     title: "Audiova — Convertisseur MP3 en ligne gratuit",
     description:
-      "Convertissez WAV, FLAC, M4A, OGG ou une piste vidéo en MP3 dans votre navigateur. Gratuit, sans compte. Fichiers locaux sans téléversement ; import par lien via le serveur.",
+      "Convertisseur MP3 gratuit : WAV, FLAC, M4A, OGG, AAC ou vidéo vers MP3 dans le navigateur. Sans compte. Conversion locale FFmpeg.wasm ; import par lien via le serveur.",
     ogAlt: "Audiova, convertisseur audio vers MP3",
   },
   skip: "Aller au contenu",

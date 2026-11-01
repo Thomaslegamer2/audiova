@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AdSlot } from "@/components/layout/AdSlot";
+import { buildPageMetadata } from "@/lib/seo/metadata";
 import { TOOL_REGISTRY } from "@/lib/tools/registry";
 
-export const metadata: Metadata = {
-  title: "Outils audio en ligne",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Outils audio en ligne — convertisseurs MP3",
   description:
-    "Convertisseurs WAV, FLAC, M4A, OGG, MP4 vers MP3 et extraction audio. Outils Audiova gratuits dans le navigateur.",
-  alternates: { canonical: "/outils" },
-  openGraph: {
-    title: "Outils audio en ligne — Audiova",
-    description: "Convertisseurs MP3 et extraction audio. Conversion locale dans le navigateur.",
-    url: "/outils",
-  },
-};
+    "Convertisseurs WAV, FLAC, M4A, OGG, AAC, MP4, MOV vers MP3 et extraction audio. Outils Audiova gratuits dans le navigateur.",
+  path: "/outils",
+  keywords: ["outils mp3", "convertisseurs audio", "extraction audio", "wav flac m4a"],
+});
 
 export default function ToolsHubPage() {
   return (

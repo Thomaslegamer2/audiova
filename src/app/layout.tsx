@@ -30,6 +30,18 @@ export const metadata: Metadata = {
   },
   description: fr.meta.description,
   applicationName: "Audiova",
+  category: "technology",
+  keywords: [
+    "convertisseur mp3",
+    "convertir audio en mp3",
+    "wav vers mp3",
+    "flac vers mp3",
+    "mp4 vers mp3",
+    "convertisseur audio en ligne gratuit",
+  ],
+  authors: [{ name: "Audiova", url: siteUrl }],
+  creator: "Audiova",
+  publisher: "Audiova",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
@@ -44,13 +56,24 @@ export const metadata: Metadata = {
     siteName: "Audiova",
     title: fr.meta.title,
     description: fr.meta.description,
+    url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
     title: fr.meta.title,
     description: fr.meta.description,
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

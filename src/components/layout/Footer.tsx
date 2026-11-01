@@ -61,7 +61,9 @@ export function Footer() {
             <li><a className="text-ink hover:text-glow" href={hrefFor("convertisseur")}>{t.nav.converter}</a></li>
             <li><a className="text-ink hover:text-glow" href={hrefFor("fonctionnalites")}>{t.nav.features}</a></li>
             <li><a className="text-ink hover:text-glow" href={hrefFor("faq")}>{t.nav.faq}</a></li>
+            <li><Link className="text-ink hover:text-glow" href="/faq">FAQ (page)</Link></li>
             <li><Link className="text-ink hover:text-glow" href="/outils">Outils</Link></li>
+            <li><Link className="text-ink hover:text-glow" href="/guides">Guides</Link></li>
           </ul>
         </div>
         <div>
@@ -70,6 +72,8 @@ export function Footer() {
             <li><Link className="text-ink hover:text-glow" href="/privacy">{t.footer.privacy}</Link></li>
             <li><Link className="text-ink hover:text-glow" href="/legal">{t.footer.legal}</Link></li>
             <li><Link className="text-ink hover:text-glow" href="/contact">{t.footer.contact}</Link></li>
+            <li><Link className="text-ink hover:text-glow" href="/outils/wav-vers-mp3">WAV → MP3</Link></li>
+            <li><Link className="text-ink hover:text-glow" href="/outils/mp4-vers-mp3">MP4 → MP3</Link></li>
           </ul>
         </div>
       </div>

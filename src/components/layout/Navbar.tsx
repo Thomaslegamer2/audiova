@@ -76,6 +76,9 @@ export function Navbar() {
           <Link href="/outils" className="text-sm text-muted transition hover:text-ink">
             Outils
           </Link>
+          <Link href="/guides" className="text-sm text-muted transition hover:text-ink">
+            Guides
+          </Link>
         </nav>
         <div className="ml-auto flex min-w-0 items-center gap-2">
           <DonateLink variant="nav" className="hidden sm:inline-flex" />
