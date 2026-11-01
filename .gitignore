@@ -53,9 +53,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Fichiers locaux IDE / agents
+# Fichiers locaux IDE
 AGENTS.md
 .cursor/
 .cursorrules
 .claude/
+.idea/
+.vscode/
 
