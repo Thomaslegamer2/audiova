@@ -1,0 +1,632 @@
+@import "tailwindcss";
+@import "./themes.css";
+
+@theme {
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-canvas: #050510;
+  --color-panel: #0b0c1a;
+  --color-card: #121328;
+  --color-line: #2a2d48;
+  --color-violet: #c84bff;
+  --color-glow: #e879ff;
+  --color-signal: #00d1ff;
+  --color-ink: #ffffff;
+  --color-muted: #9aa0b8;
+  --color-ok: #34d399;
+  --color-danger: #f3b4bc;
+  --color-action: #9b2cff;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: #050510;
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100%;
+  background: #050510;
+  color: #ffffff;
+}
+
+::selection {
+  background: rgba(200, 75, 255, 0.35);
+  color: #ffffff;
+}
+
+:focus-visible {
+  outline: 2px solid #00d1ff;
+  outline-offset: 3px;
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+.gradient-text {
+  background-image: linear-gradient(105deg, #ff4bfd 0%, #c84bff 42%, #00d1ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.atmosphere {
+  background:
+    radial-gradient(ellipse 52% 40% at 8% -6%, rgba(214, 0, 255, 0.28), transparent 62%),
+    radial-gradient(ellipse 42% 34% at 96% -4%, rgba(0, 209, 255, 0.18), transparent 58%),
+    radial-gradient(ellipse 40% 30% at 0% 100%, rgba(138, 43, 226, 0.16), transparent 55%),
+    radial-gradient(ellipse 36% 28% at 100% 100%, rgba(0, 87, 255, 0.14), transparent 55%);
+}
+
+.btn-brand {
+  background-image: linear-gradient(105deg, #d600ff 0%, #8a2be2 48%, #00a8ff 100%);
+  color: #ffffff;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 10px 30px -12px rgba(214, 0, 255, 0.55),
+    0 8px 24px -14px rgba(0, 209, 255, 0.45);
+  transition: filter 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+}
+
+/* ——— Thème Noël ——— */
+html[data-theme="christmas"] {
+  --color-canvas: #07110c;
+  --color-panel: #0d1a14;
+  --color-card: #13241c;
+  --color-line: #2a4638;
+  --color-violet: #e63946;
+  --color-glow: #ff6b6b;
+  --color-signal: #3ddc97;
+  --color-action: #c1121f;
+  color-scheme: dark;
+}
+
+html[data-theme="christmas"],
+html[data-theme="christmas"] body {
+  background: #07110c;
+}
+
+html[data-theme="christmas"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 10% -8%, rgba(230, 57, 70, 0.34), transparent 60%),
+    radial-gradient(ellipse 44% 34% at 92% -2%, rgba(61, 220, 151, 0.22), transparent 58%),
+    radial-gradient(ellipse 38% 30% at 4% 100%, rgba(193, 18, 31, 0.18), transparent 55%),
+    radial-gradient(ellipse 36% 28% at 100% 100%, rgba(255, 255, 255, 0.06), transparent 55%);
+}
+
+html[data-theme="christmas"] .gradient-text {
+  background-image: linear-gradient(105deg, #ff6b6b 0%, #e63946 40%, #3ddc97 100%);
+}
+
+html[data-theme="christmas"] .btn-brand {
+  background-image: linear-gradient(105deg, #c1121f 0%, #e63946 48%, #2a9d8f 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 10px 30px -12px rgba(230, 57, 70, 0.55),
+    0 8px 24px -14px rgba(61, 220, 151, 0.4);
+}
+
+html[data-theme="christmas"] .card-glow {
+  box-shadow:
+    0 0 0 1px rgba(230, 57, 70, 0.12),
+    0 30px 80px -48px rgba(0, 0, 0, 0.9),
+    0 0 60px -28px rgba(61, 220, 151, 0.18);
+}
+
+html[data-theme="christmas"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #e63946, #3ddc97, transparent);
+}
+
+html[data-theme="christmas"] .logo-wave {
+  animation: wave-glow-christmas 2.8s ease-in-out infinite;
+}
+
+@keyframes wave-glow-christmas {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(230, 57, 70, 0.5)); }
+  50% { filter: drop-shadow(0 0 12px rgba(61, 220, 151, 0.55)); }
+}
+
+/* ——— Thème Halloween ——— */
+html[data-theme="halloween"] {
+  --color-canvas: #0c0704;
+  --color-panel: #160e08;
+  --color-card: #22140c;
+  --color-line: #4a2f18;
+  --color-violet: #ff7a18;
+  --color-glow: #ffb347;
+  --color-signal: #9b5de5;
+  --color-action: #ff5e00;
+  color-scheme: dark;
+}
+
+html[data-theme="halloween"],
+html[data-theme="halloween"] body {
+  background: #0c0704;
+}
+
+html[data-theme="halloween"] .atmosphere {
+  background:
+    radial-gradient(ellipse 52% 40% at 8% -6%, rgba(255, 122, 24, 0.3), transparent 62%),
+    radial-gradient(ellipse 42% 34% at 96% -4%, rgba(155, 93, 229, 0.22), transparent 58%),
+    radial-gradient(ellipse 40% 30% at 0% 100%, rgba(120, 40, 0, 0.28), transparent 55%),
+    radial-gradient(ellipse 36% 28% at 100% 100%, rgba(40, 10, 50, 0.3), transparent 55%);
+}
+
+html[data-theme="halloween"] .gradient-text {
+  background-image: linear-gradient(105deg, #ffb347 0%, #ff7a18 42%, #9b5de5 100%);
+}
+
+html[data-theme="halloween"] .btn-brand {
+  background-image: linear-gradient(105deg, #ff5e00 0%, #c2410c 48%, #6d28d9 100%);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 10px 30px -12px rgba(255, 122, 24, 0.55),
+    0 8px 24px -14px rgba(155, 93, 229, 0.45);
+}
+
+html[data-theme="halloween"] .card-glow {
+  box-shadow:
+    0 0 0 1px rgba(255, 122, 24, 0.14),
+    0 30px 80px -48px rgba(0, 0, 0, 0.9),
+    0 0 60px -28px rgba(155, 93, 229, 0.22);
+}
+
+html[data-theme="halloween"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #ff7a18, #9b5de5, transparent);
+}
+
+html[data-theme="halloween"] .logo-wave {
+  animation: wave-glow-halloween 2.8s ease-in-out infinite;
+}
+
+@keyframes wave-glow-halloween {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 122, 24, 0.5)); }
+  50% { filter: drop-shadow(0 0 12px rgba(155, 93, 229, 0.55)); }
+}
+
+/* Effets saisonniers */
+.snowflake {
+  position: absolute;
+  top: -12px;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.55);
+  animation-name: snowfall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.snowflake:nth-child(3n) { width: 6px; height: 6px; opacity: 0.7; }
+.snowflake:nth-child(4n) { width: 3px; height: 3px; opacity: 0.55; }
+
+@keyframes snowfall {
+  0% { transform: translateY(-10px) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(110vh) translateX(28px); opacity: 0.15; }
+}
+
+.garland {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 18px;
+  background:
+    radial-gradient(circle at 8% 70%, #e63946 0 5px, transparent 6px),
+    radial-gradient(circle at 16% 40%, #ffd166 0 4px, transparent 5px),
+    radial-gradient(circle at 24% 75%, #3ddc97 0 5px, transparent 6px),
+    radial-gradient(circle at 32% 35%, #e63946 0 4px, transparent 5px),
+    radial-gradient(circle at 40% 70%, #00d1ff 0 5px, transparent 6px),
+    radial-gradient(circle at 48% 40%, #ffd166 0 4px, transparent 5px),
+    radial-gradient(circle at 56% 75%, #e63946 0 5px, transparent 6px),
+    radial-gradient(circle at 64% 35%, #3ddc97 0 4px, transparent 5px),
+    radial-gradient(circle at 72% 70%, #ffd166 0 5px, transparent 6px),
+    radial-gradient(circle at 80% 40%, #e63946 0 4px, transparent 5px),
+    radial-gradient(circle at 88% 75%, #00d1ff 0 5px, transparent 6px),
+    radial-gradient(circle at 96% 35%, #3ddc97 0 4px, transparent 5px);
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 10px rgba(230, 57, 70, 0.25));
+}
+
+.xmas-star {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ffd166;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  animation: twinkle 2.4s ease-in-out infinite;
+  opacity: 0.75;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.7); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.deco-tree {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 72px;
+  height: auto;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.45));
+  animation: sway 5s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+.deco-tree-left { left: 1.25rem; width: 88px; }
+.deco-tree-right { right: 1.25rem; width: 80px; animation-delay: 0.8s; }
+.deco-tree-mid {
+  left: 50%;
+  bottom: 0.75rem;
+  width: 54px;
+  opacity: 0.55;
+  animation-name: sway-mid;
+  animation-delay: 1.4s;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2deg); }
+}
+
+@keyframes sway-mid {
+  0%, 100% { transform: translateX(-50%) rotate(-2deg); }
+  50% { transform: translateX(-50%) rotate(2deg); }
+}
+
+.deco-gift {
+  position: absolute;
+  bottom: 1.25rem;
+  width: 42px;
+  height: auto;
+  animation: bob 3.6s ease-in-out infinite;
+}
+
+.deco-gift-a { left: 6.5rem; width: 48px; }
+.deco-gift-b { right: 6rem; width: 40px; animation-delay: 0.6s; }
+.deco-gift-c { left: calc(50% + 2.5rem); width: 34px; opacity: 0.7; animation-delay: 1.1s; }
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.deco-ornament {
+  position: absolute;
+  width: 22px;
+  height: auto;
+  animation: swing 3.2s ease-in-out infinite;
+  transform-origin: top center;
+}
+
+.deco-ornament-a { top: 3.5rem; left: 18%; }
+.deco-ornament-b { top: 5rem; left: 42%; animation-delay: 0.5s; }
+.deco-ornament-c { top: 3rem; right: 22%; animation-delay: 1s; }
+.deco-ornament-d { top: 6rem; right: 38%; animation-delay: 1.4s; }
+
+@keyframes swing {
+  0%, 100% { transform: rotate(-12deg); }
+  50% { transform: rotate(12deg); }
+}
+
+.deco-candy {
+  position: absolute;
+  bottom: 6.5rem;
+  width: 28px;
+  height: auto;
+  opacity: 0.9;
+  animation: bob 4s ease-in-out infinite;
+}
+
+.deco-candy-a { left: 4.5rem; transform: rotate(-18deg); }
+.deco-candy-b { right: 4.25rem; transform: rotate(16deg); animation-delay: 0.7s; }
+
+.theme-fx-halloween .fog {
+  position: absolute;
+  inset: auto 0 0;
+  height: 34%;
+  background: radial-gradient(ellipse at center, rgba(255, 122, 24, 0.12), transparent 70%);
+  filter: blur(18px);
+  animation: fog-drift 12s ease-in-out infinite alternate;
+}
+
+.theme-fx-halloween .fog-b {
+  height: 22%;
+  opacity: 0.55;
+  animation-duration: 16s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes fog-drift {
+  from { transform: translateX(-4%); }
+  to { transform: translateX(4%); }
+}
+
+.bat {
+  position: absolute;
+  width: 18px;
+  height: 8px;
+  background: #1a0f08;
+  border-radius: 50% 50% 40% 40%;
+  opacity: 0.55;
+  animation: bat-fly 7s ease-in-out infinite;
+}
+
+.bat::before,
+.bat::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 14px;
+  height: 10px;
+  background: #1a0f08;
+  border-radius: 50% 0 50% 0;
+}
+
+.bat::before { left: -10px; transform: rotate(-18deg); }
+.bat::after { right: -10px; transform: scaleX(-1) rotate(-18deg); }
+
+@keyframes bat-fly {
+  0%, 100% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(28px, -22px) scale(1.08); }
+}
+
+.deco-web {
+  position: absolute;
+  top: 0;
+  width: 160px;
+  height: auto;
+  opacity: 0.85;
+}
+
+.deco-web-left { left: 0; }
+.deco-web-right { right: 0; transform: scaleX(-1); }
+
+.spider-thread {
+  position: absolute;
+  top: 0;
+  width: 2px;
+  height: 90px;
+  background: linear-gradient(to bottom, rgba(255, 180, 100, 0.35), transparent);
+  animation: spider-drop 5.5s ease-in-out infinite;
+}
+
+.spider-thread .deco-spider {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 34px;
+  transform: translateX(-50%);
+}
+
+@keyframes spider-drop {
+  0%, 100% { height: 64px; }
+  50% { height: 120px; }
+}
+
+.deco-pumpkin {
+  position: absolute;
+  bottom: 1.25rem;
+  width: 64px;
+  height: auto;
+  filter: drop-shadow(0 0 16px rgba(255, 122, 24, 0.35));
+  animation: pumpkin-glow 3.4s ease-in-out infinite;
+}
+
+.deco-pumpkin-a { left: 1.25rem; width: 78px; }
+.deco-pumpkin-b { left: 6.5rem; width: 52px; animation-delay: 0.6s; }
+.deco-pumpkin-c { right: 1.5rem; width: 70px; animation-delay: 1s; }
+.deco-pumpkin-d { right: 6.75rem; width: 48px; animation-delay: 1.5s; }
+
+@keyframes pumpkin-glow {
+  0%, 100% { filter: drop-shadow(0 0 10px rgba(255, 122, 24, 0.25)); transform: translateY(0); }
+  50% { filter: drop-shadow(0 0 22px rgba(255, 180, 60, 0.55)); transform: translateY(-4px); }
+}
+
+.deco-ghost {
+  position: absolute;
+  width: 52px;
+  height: auto;
+  opacity: 0.72;
+  animation: ghost-drift 8s ease-in-out infinite;
+}
+
+.deco-ghost-a { top: 18%; left: 8%; }
+.deco-ghost-b { top: 28%; right: 10%; animation-delay: 1.5s; width: 44px; }
+.deco-ghost-c { top: 48%; left: 42%; animation-delay: 2.8s; width: 38px; opacity: 0.45; }
+
+@keyframes ghost-drift {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(18px, -16px); }
+}
+
+.deco-tomb {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 36px;
+  height: auto;
+  opacity: 0.7;
+}
+
+.deco-tomb-a { left: calc(50% - 5rem); }
+.deco-tomb-b { left: calc(50% + 2rem); width: 30px; opacity: 0.55; }
+
+.ember {
+  position: absolute;
+  bottom: -8px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: #ff7a18;
+  box-shadow: 0 0 10px rgba(255, 122, 24, 0.8);
+  animation: ember-rise linear infinite;
+}
+
+@keyframes ember-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0; }
+  15% { opacity: 0.9; }
+  100% { transform: translateY(-90vh) scale(0.3); opacity: 0; }
+}
+
+@media (max-width: 768px) {
+  .deco-tree-mid,
+  .deco-gift-c,
+  .deco-ghost-c,
+  .deco-tomb,
+  .deco-ornament-b,
+  .deco-ornament-d,
+  .deco-pumpkin-b,
+  .deco-pumpkin-d {
+    display: none;
+  }
+
+  .deco-tree-left,
+  .deco-tree-right,
+  .deco-pumpkin-a,
+  .deco-pumpkin-c {
+    width: 56px;
+  }
+
+  .garland {
+    opacity: 0.7;
+  }
+}
+
+.btn-brand:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.btn-brand:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-brand:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.card-glow {
+  box-shadow:
+    0 0 0 1px rgba(200, 75, 255, 0.08),
+    0 30px 80px -48px rgba(0, 0, 0, 0.9),
+    0 0 60px -28px rgba(214, 0, 255, 0.22);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.delay-1 { animation-delay: 80ms; }
+.delay-2 { animation-delay: 160ms; }
+.delay-3 { animation-delay: 240ms; }
+
+@keyframes wave-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(214, 0, 255, 0.45)); }
+  50% { filter: drop-shadow(0 0 12px rgba(0, 209, 255, 0.55)); }
+}
+
+.logo-wave {
+  animation: wave-glow 2.8s ease-in-out infinite;
+}
+
+@keyframes indeterminate {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
+}
+
+.indeterminate {
+  position: relative;
+  overflow: hidden;
+  background: #0b0c1a;
+}
+
+.indeterminate::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 42%;
+  background: linear-gradient(90deg, transparent, #d600ff, #00d1ff, transparent);
+  animation: indeterminate 1.15s ease-in-out infinite;
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pop-in {
+  animation: pop-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .rise,
+  .logo-wave,
+  .indeterminate::after,
+  .pop-in,
+  .snowflake,
+  .bat,
+  .fog,
+  .xmas-star,
+  .deco-tree,
+  .deco-gift,
+  .deco-ornament,
+  .deco-candy,
+  .deco-pumpkin,
+  .deco-ghost,
+  .spider-thread,
+  .ember,
+  .confetti,
+  .firework,
+  .deco-heart,
+  .deco-egg,
+  .deco-bunny,
+  .deco-chick,
+  .deco-clover,
+  .deco-coin,
+  .deco-mask,
+  .deco-flower,
+  .deco-sun,
+  .deco-wave,
+  .deco-lemon,
+  .deco-flag,
+  .deco-pencil,
+  .deco-book,
+  .deco-leaf,
+  .deco-ice,
+  .petal,
+  .leaf-fall {
+    animation: none;
+  }
+
+  .rise,
+  .pop-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  .logo-wave {
+    filter: drop-shadow(0 0 8px rgba(200, 75, 255, 0.4));
+  }
+
+  .theme-fx {
+    display: none;
+  }
+}

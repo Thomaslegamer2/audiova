@@ -1,0 +1,481 @@
+/* ——— Palette saisonnière (variables + UI de marque) ——— */
+
+html[data-theme="newyear"] {
+  --color-canvas: #07070f;
+  --color-panel: #10101c;
+  --color-card: #181828;
+  --color-line: #3a3650;
+  --color-violet: #ffd700;
+  --color-glow: #ffe566;
+  --color-signal: #a78bfa;
+  --color-action: #c9a227;
+}
+html[data-theme="newyear"],
+html[data-theme="newyear"] body { background: #07070f; }
+html[data-theme="newyear"] .atmosphere {
+  background:
+    radial-gradient(ellipse 48% 36% at 12% -8%, rgba(255, 215, 0, 0.28), transparent 60%),
+    radial-gradient(ellipse 40% 32% at 90% 0%, rgba(167, 139, 250, 0.22), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 50% 100%, rgba(255, 255, 255, 0.08), transparent 55%);
+}
+html[data-theme="newyear"] .gradient-text {
+  background-image: linear-gradient(105deg, #fff7cc 0%, #ffd700 45%, #a78bfa 100%);
+}
+html[data-theme="newyear"] .btn-brand {
+  background-image: linear-gradient(105deg, #c9a227 0%, #ffd700 48%, #7c3aed 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(255, 215, 0, 0.45);
+}
+html[data-theme="newyear"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.12), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(167, 139, 250, 0.2);
+}
+html[data-theme="newyear"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #ffd700, #a78bfa, transparent);
+}
+
+html[data-theme="valentine"] {
+  --color-canvas: #12060c;
+  --color-panel: #1c0c14;
+  --color-card: #2a1220;
+  --color-line: #5a2a3e;
+  --color-violet: #ff4d6d;
+  --color-glow: #ff8fa3;
+  --color-signal: #fb7185;
+  --color-action: #e11d48;
+}
+html[data-theme="valentine"],
+html[data-theme="valentine"] body { background: #12060c; }
+html[data-theme="valentine"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 10% -6%, rgba(255, 77, 109, 0.32), transparent 60%),
+    radial-gradient(ellipse 42% 34% at 95% 0%, rgba(251, 113, 133, 0.2), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 40% 100%, rgba(190, 24, 93, 0.18), transparent 55%);
+}
+html[data-theme="valentine"] .gradient-text {
+  background-image: linear-gradient(105deg, #ffb3c1 0%, #ff4d6d 45%, #fb7185 100%);
+}
+html[data-theme="valentine"] .btn-brand {
+  background-image: linear-gradient(105deg, #e11d48 0%, #ff4d6d 50%, #fb7185 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(255, 77, 109, 0.5);
+}
+html[data-theme="valentine"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 77, 109, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(255, 77, 109, 0.22);
+}
+html[data-theme="valentine"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #ff4d6d, #ffb3c1, transparent);
+}
+
+html[data-theme="carnival"] {
+  --color-canvas: #140818;
+  --color-panel: #1e0f24;
+  --color-card: #2a1634;
+  --color-line: #5b3470;
+  --color-violet: #ff6b35;
+  --color-glow: #ffd166;
+  --color-signal: #c77dff;
+  --color-action: #f72585;
+}
+html[data-theme="carnival"],
+html[data-theme="carnival"] body { background: #140818; }
+html[data-theme="carnival"] .atmosphere {
+  background:
+    radial-gradient(ellipse 48% 36% at 8% -6%, rgba(247, 37, 133, 0.3), transparent 60%),
+    radial-gradient(ellipse 42% 32% at 92% 0%, rgba(255, 209, 102, 0.22), transparent 58%),
+    radial-gradient(ellipse 38% 30% at 50% 100%, rgba(199, 125, 255, 0.2), transparent 55%);
+}
+html[data-theme="carnival"] .gradient-text {
+  background-image: linear-gradient(105deg, #ffd166 0%, #ff6b35 40%, #c77dff 100%);
+}
+html[data-theme="carnival"] .btn-brand {
+  background-image: linear-gradient(105deg, #f72585 0%, #ff6b35 48%, #7209b7 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(247, 37, 133, 0.45);
+}
+html[data-theme="carnival"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 107, 53, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(199, 125, 255, 0.22);
+}
+html[data-theme="carnival"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #ff6b35, #c77dff, transparent);
+}
+
+html[data-theme="stpatrick"] {
+  --color-canvas: #06140a;
+  --color-panel: #0c1f12;
+  --color-card: #132a1a;
+  --color-line: #2f5a3a;
+  --color-violet: #22c55e;
+  --color-glow: #86efac;
+  --color-signal: #fbbf24;
+  --color-action: #15803d;
+}
+html[data-theme="stpatrick"],
+html[data-theme="stpatrick"] body { background: #06140a; }
+html[data-theme="stpatrick"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 10% -6%, rgba(34, 197, 94, 0.3), transparent 60%),
+    radial-gradient(ellipse 40% 32% at 92% 0%, rgba(251, 191, 36, 0.18), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 20% 100%, rgba(21, 128, 61, 0.22), transparent 55%);
+}
+html[data-theme="stpatrick"] .gradient-text {
+  background-image: linear-gradient(105deg, #86efac 0%, #22c55e 45%, #fbbf24 100%);
+}
+html[data-theme="stpatrick"] .btn-brand {
+  background-image: linear-gradient(105deg, #15803d 0%, #22c55e 48%, #ca8a04 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(34, 197, 94, 0.45);
+}
+html[data-theme="stpatrick"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(34, 197, 94, 0.2);
+}
+html[data-theme="stpatrick"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #22c55e, #fbbf24, transparent);
+}
+
+html[data-theme="easter"] {
+  --color-canvas: #100e18;
+  --color-panel: #181624;
+  --color-card: #221f32;
+  --color-line: #4a4566;
+  --color-violet: #f9a8d4;
+  --color-glow: #fde68a;
+  --color-signal: #93c5fd;
+  --color-action: #c084fc;
+}
+html[data-theme="easter"],
+html[data-theme="easter"] body { background: #100e18; }
+html[data-theme="easter"] .atmosphere {
+  background:
+    radial-gradient(ellipse 48% 36% at 12% -6%, rgba(249, 168, 212, 0.28), transparent 60%),
+    radial-gradient(ellipse 42% 32% at 90% 0%, rgba(147, 197, 253, 0.22), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 50% 100%, rgba(253, 230, 138, 0.16), transparent 55%);
+}
+html[data-theme="easter"] .gradient-text {
+  background-image: linear-gradient(105deg, #f9a8d4 0%, #c084fc 45%, #93c5fd 100%);
+}
+html[data-theme="easter"] .btn-brand {
+  background-image: linear-gradient(105deg, #f472b6 0%, #c084fc 48%, #60a5fa 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(244, 114, 182, 0.45);
+}
+html[data-theme="easter"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(249, 168, 212, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(192, 132, 252, 0.2);
+}
+html[data-theme="easter"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #f9a8d4, #93c5fd, transparent);
+}
+
+html[data-theme="spring"] {
+  --color-canvas: #07140f;
+  --color-panel: #0d1f18;
+  --color-card: #142a22;
+  --color-line: #2f5548;
+  --color-violet: #4ade80;
+  --color-glow: #bbf7d0;
+  --color-signal: #f9a8d4;
+  --color-action: #16a34a;
+}
+html[data-theme="spring"],
+html[data-theme="spring"] body { background: #07140f; }
+html[data-theme="spring"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 10% -6%, rgba(74, 222, 128, 0.26), transparent 60%),
+    radial-gradient(ellipse 42% 32% at 92% 0%, rgba(249, 168, 212, 0.18), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 30% 100%, rgba(190, 242, 100, 0.14), transparent 55%);
+}
+html[data-theme="spring"] .gradient-text {
+  background-image: linear-gradient(105deg, #bbf7d0 0%, #4ade80 42%, #f9a8d4 100%);
+}
+html[data-theme="spring"] .btn-brand {
+  background-image: linear-gradient(105deg, #16a34a 0%, #4ade80 48%, #f472b6 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(74, 222, 128, 0.4);
+}
+html[data-theme="spring"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(74, 222, 128, 0.12), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(74, 222, 128, 0.18);
+}
+html[data-theme="spring"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #4ade80, #f9a8d4, transparent);
+}
+
+html[data-theme="summer"] {
+  --color-canvas: #061018;
+  --color-panel: #0c1c28;
+  --color-card: #122838;
+  --color-line: #2a5570;
+  --color-violet: #38bdf8;
+  --color-glow: #fde047;
+  --color-signal: #2dd4bf;
+  --color-action: #0284c7;
+}
+html[data-theme="summer"],
+html[data-theme="summer"] body { background: #061018; }
+html[data-theme="summer"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 14% -8%, rgba(253, 224, 71, 0.26), transparent 60%),
+    radial-gradient(ellipse 44% 34% at 92% 0%, rgba(56, 189, 248, 0.24), transparent 58%),
+    radial-gradient(ellipse 40% 30% at 50% 100%, rgba(45, 212, 191, 0.16), transparent 55%);
+}
+html[data-theme="summer"] .gradient-text {
+  background-image: linear-gradient(105deg, #fde047 0%, #38bdf8 48%, #2dd4bf 100%);
+}
+html[data-theme="summer"] .btn-brand {
+  background-image: linear-gradient(105deg, #0284c7 0%, #38bdf8 48%, #facc15 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(56, 189, 248, 0.45);
+}
+html[data-theme="summer"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(253, 224, 71, 0.16);
+}
+html[data-theme="summer"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #38bdf8, #fde047, transparent);
+}
+
+html[data-theme="bastille"] {
+  --color-canvas: #080914;
+  --color-panel: #101328;
+  --color-card: #181c34;
+  --color-line: #343a5c;
+  --color-violet: #ef4444;
+  --color-glow: #ffffff;
+  --color-signal: #3b82f6;
+  --color-action: #dc2626;
+}
+html[data-theme="bastille"],
+html[data-theme="bastille"] body { background: #080914; }
+html[data-theme="bastille"] .atmosphere {
+  background:
+    radial-gradient(ellipse 40% 34% at 8% -6%, rgba(59, 130, 246, 0.28), transparent 60%),
+    radial-gradient(ellipse 40% 34% at 50% -8%, rgba(255, 255, 255, 0.12), transparent 58%),
+    radial-gradient(ellipse 40% 34% at 92% -6%, rgba(239, 68, 68, 0.28), transparent 60%);
+}
+html[data-theme="bastille"] .gradient-text {
+  background-image: linear-gradient(105deg, #60a5fa 0%, #ffffff 48%, #ef4444 100%);
+}
+html[data-theme="bastille"] .btn-brand {
+  background-image: linear-gradient(105deg, #1d4ed8 0%, #ffffff 48%, #dc2626 100%);
+  color: #0b1020;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12) inset, 0 10px 30px -12px rgba(239, 68, 68, 0.4);
+}
+html[data-theme="bastille"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(59, 130, 246, 0.18);
+}
+html[data-theme="bastille"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #3b82f6, #ffffff, #ef4444, transparent);
+}
+
+html[data-theme="backtoschool"] {
+  --color-canvas: #120e08;
+  --color-panel: #1c160e;
+  --color-card: #2a2116;
+  --color-line: #4a3a24;
+  --color-violet: #f59e0b;
+  --color-glow: #fcd34d;
+  --color-signal: #38bdf8;
+  --color-action: #d97706;
+}
+html[data-theme="backtoschool"],
+html[data-theme="backtoschool"] body { background: #120e08; }
+html[data-theme="backtoschool"] .atmosphere {
+  background:
+    radial-gradient(ellipse 48% 36% at 12% -6%, rgba(245, 158, 11, 0.28), transparent 60%),
+    radial-gradient(ellipse 40% 32% at 90% 0%, rgba(56, 189, 248, 0.16), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 40% 100%, rgba(120, 53, 15, 0.22), transparent 55%);
+}
+html[data-theme="backtoschool"] .gradient-text {
+  background-image: linear-gradient(105deg, #fcd34d 0%, #f59e0b 45%, #38bdf8 100%);
+}
+html[data-theme="backtoschool"] .btn-brand {
+  background-image: linear-gradient(105deg, #d97706 0%, #f59e0b 48%, #0284c7 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(245, 158, 11, 0.45);
+}
+html[data-theme="backtoschool"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(245, 158, 11, 0.18);
+}
+html[data-theme="backtoschool"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #f59e0b, #38bdf8, transparent);
+}
+
+html[data-theme="autumn"] {
+  --color-canvas: #120a04;
+  --color-panel: #1c1208;
+  --color-card: #2a1a0c;
+  --color-line: #5a3a1c;
+  --color-violet: #ea580c;
+  --color-glow: #fdba74;
+  --color-signal: #facc15;
+  --color-action: #c2410c;
+}
+html[data-theme="autumn"],
+html[data-theme="autumn"] body { background: #120a04; }
+html[data-theme="autumn"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 10% -6%, rgba(234, 88, 12, 0.3), transparent 60%),
+    radial-gradient(ellipse 42% 32% at 92% 0%, rgba(250, 204, 21, 0.16), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 30% 100%, rgba(120, 53, 15, 0.24), transparent 55%);
+}
+html[data-theme="autumn"] .gradient-text {
+  background-image: linear-gradient(105deg, #fdba74 0%, #ea580c 45%, #facc15 100%);
+}
+html[data-theme="autumn"] .btn-brand {
+  background-image: linear-gradient(105deg, #c2410c 0%, #ea580c 48%, #ca8a04 100%);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 10px 30px -12px rgba(234, 88, 12, 0.45);
+}
+html[data-theme="autumn"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(234, 88, 12, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(234, 88, 12, 0.2);
+}
+html[data-theme="autumn"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #ea580c, #facc15, transparent);
+}
+
+html[data-theme="winter"] {
+  --color-canvas: #060b14;
+  --color-panel: #0c1522;
+  --color-card: #142032;
+  --color-line: #2a4058;
+  --color-violet: #7dd3fc;
+  --color-glow: #e0f2fe;
+  --color-signal: #bae6fd;
+  --color-action: #0284c7;
+}
+html[data-theme="winter"],
+html[data-theme="winter"] body { background: #060b14; }
+html[data-theme="winter"] .atmosphere {
+  background:
+    radial-gradient(ellipse 50% 38% at 12% -6%, rgba(125, 211, 252, 0.26), transparent 60%),
+    radial-gradient(ellipse 42% 32% at 90% 0%, rgba(224, 242, 254, 0.14), transparent 58%),
+    radial-gradient(ellipse 36% 28% at 50% 100%, rgba(14, 116, 144, 0.2), transparent 55%);
+}
+html[data-theme="winter"] .gradient-text {
+  background-image: linear-gradient(105deg, #e0f2fe 0%, #7dd3fc 45%, #38bdf8 100%);
+}
+html[data-theme="winter"] .btn-brand {
+  background-image: linear-gradient(105deg, #0369a1 0%, #38bdf8 48%, #e0f2fe 100%);
+  color: #061018;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 10px 30px -12px rgba(125, 211, 252, 0.4);
+}
+html[data-theme="winter"] .card-glow {
+  box-shadow: 0 0 0 1px rgba(125, 211, 252, 0.14), 0 30px 80px -48px rgba(0, 0, 0, 0.9), 0 0 60px -28px rgba(125, 211, 252, 0.18);
+}
+html[data-theme="winter"] .indeterminate::after {
+  background: linear-gradient(90deg, transparent, #7dd3fc, #e0f2fe, transparent);
+}
+
+/* Christmas + Halloween restent dans globals.css (effets déjà en place). */
+
+/* ——— Décorations partagées nouvelles saisons ——— */
+
+.confetti {
+  position: absolute;
+  top: -10px;
+  width: 8px;
+  height: 12px;
+  border-radius: 2px;
+  animation: confetti-fall linear infinite;
+  opacity: 0.85;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(520deg); opacity: 0.2; }
+}
+
+.firework {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 999px;
+  box-shadow:
+    0 -18px 0 currentColor,
+    0 18px 0 currentColor,
+    18px 0 0 currentColor,
+    -18px 0 0 currentColor,
+    13px 13px 0 currentColor,
+    -13px 13px 0 currentColor,
+    13px -13px 0 currentColor,
+    -13px -13px 0 currentColor;
+  animation: firework-pop 2.4s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes firework-pop {
+  0% { transform: scale(0.2); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.deco-heart {
+  position: absolute;
+  width: 28px;
+  height: auto;
+  animation: float-soft 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 77, 109, 0.35));
+}
+
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0) rotate(-6deg); }
+  50% { transform: translateY(-14px) rotate(6deg); }
+}
+
+.deco-egg,
+.deco-bunny,
+.deco-chick,
+.deco-clover,
+.deco-coin,
+.deco-mask,
+.deco-flower,
+.deco-sun,
+.deco-wave,
+.deco-lemon,
+.deco-flag,
+.deco-pencil,
+.deco-book,
+.deco-leaf,
+.deco-ice {
+  position: absolute;
+  height: auto;
+  animation: bob 3.8s ease-in-out infinite;
+  filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.35));
+}
+
+.deco-egg { width: 34px; bottom: 1.5rem; }
+.deco-bunny { width: 48px; bottom: 1.25rem; }
+.deco-chick { width: 36px; bottom: 1.5rem; }
+.deco-clover { width: 40px; }
+.deco-coin { width: 28px; }
+.deco-mask { width: 56px; bottom: 1.5rem; }
+.deco-flower { width: 36px; }
+.deco-sun { width: 64px; top: 4rem; right: 1.5rem; animation: sun-spin 18s linear infinite; }
+.deco-wave { width: 120px; bottom: 0.5rem; opacity: 0.7; }
+.deco-lemon { width: 34px; bottom: 1.5rem; }
+.deco-flag { width: 42px; bottom: 1.5rem; }
+.deco-pencil { width: 18px; bottom: 1.5rem; }
+.deco-book { width: 44px; bottom: 1.25rem; }
+.deco-leaf { width: 32px; }
+.deco-ice { width: 28px; }
+
+@keyframes sun-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.petal,
+.leaf-fall {
+  position: absolute;
+  top: -12px;
+  width: 12px;
+  height: 16px;
+  border-radius: 60% 0 60% 0;
+  animation: petal-fall linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes petal-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  12% { opacity: 0.9; }
+  100% { transform: translateY(110vh) rotate(360deg) translateX(40px); opacity: 0.15; }
+}
+
+@media (max-width: 768px) {
+  .deco-sun,
+  .deco-wave,
+  .deco-mask,
+  .deco-bunny,
+  .hide-mobile-deco {
+    display: none;
+  }
+}
