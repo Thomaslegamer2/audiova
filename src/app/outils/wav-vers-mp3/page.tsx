@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Convertisseur WAV vers MP3 gratuit",
   description: "Convertissez un fichier WAV en MP3 en ligne, gratuitement, dans votre navigateur. Débit réglable, sans compte.",
   alternates: { canonical: tool.href },
+  openGraph: {
+    title: "Convertisseur WAV vers MP3 gratuit",
+    description: "Convertissez un fichier WAV en MP3 en ligne, gratuitement, dans votre navigateur.",
+    url: tool.href,
+  },
 };
 
 export default function Page() {

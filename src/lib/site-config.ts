@@ -1,9 +1,10 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { locales, type Locale, isLocale } from "@/i18n";
-import { isSiteTheme, type SiteTheme } from "@/lib/theme-catalog";
+import { resolveAutomaticTheme, type SiteTheme } from "@/lib/theme-catalog";
 
 export interface SiteConfig {
+  /** Toujours dérivé du calendrier — jamais choisi manuellement. */
   theme: SiteTheme;
   updatedAt: string | null;
   adsEnabled: boolean;
@@ -27,17 +28,24 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   localesEnabled: [...locales],
 };
 
+function withAutomaticTheme(config: Omit<SiteConfig, "theme"> & { theme?: SiteTheme }): SiteConfig {
+  return {
+    ...config,
+    theme: resolveAutomaticTheme(),
+    localesEnabled: config.localesEnabled.length > 0 ? config.localesEnabled : [...locales],
+  };
+}
+
 export function parseSiteConfig(raw: string | null): SiteConfig {
   if (!raw) {
-    return { ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] };
+    return withAutomaticTheme({ ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] });
   }
   try {
     const parsed: unknown = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") {
-      return { ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] };
+      return withAutomaticTheme({ ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] });
     }
     const record = parsed as Record<string, unknown>;
-    const theme = isSiteTheme(record.theme) ? record.theme : "default";
     const updatedAt = typeof record.updatedAt === "string" ? record.updatedAt : null;
     const adsEnabled = record.adsEnabled === true;
     const analyticsEnabled = record.analyticsEnabled !== false;
@@ -46,17 +54,16 @@ export function parseSiteConfig(raw: string | null): SiteConfig {
     const localesEnabled = Array.isArray(record.localesEnabled)
       ? record.localesEnabled.filter((item): item is Locale => typeof item === "string" && isLocale(item))
       : [...locales];
-    return {
-      theme,
+    return withAutomaticTheme({
       updatedAt,
       adsEnabled,
       analyticsEnabled,
       urlImportEnabled,
       discordEnabled,
-      localesEnabled: localesEnabled.length > 0 ? localesEnabled : [...locales],
-    };
+      localesEnabled,
+    });
   } catch {
-    return { ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] };
+    return withAutomaticTheme({ ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] });
   }
 }
 
@@ -65,18 +72,31 @@ export async function readSiteConfig(): Promise<SiteConfig> {
     const raw = await readFile(CONFIG_PATH, "utf8");
     return parseSiteConfig(raw);
   } catch {
-    return { ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] };
+    return withAutomaticTheme({ ...DEFAULT_SITE_CONFIG, localesEnabled: [...locales] });
   }
 }
 
 async function persist(config: SiteConfig): Promise<SiteConfig> {
-  const next = { ...config, updatedAt: new Date().toISOString() };
+  const next = withAutomaticTheme({
+    ...config,
+    updatedAt: new Date().toISOString(),
+  });
   await mkdir(CONFIG_DIR, { recursive: true });
-  await writeFile(CONFIG_PATH, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+  // Ne pas persister de thème manuel : le fichier ne conserve que les toggles.
+  const stored = {
+    updatedAt: next.updatedAt,
+    adsEnabled: next.adsEnabled,
+    analyticsEnabled: next.analyticsEnabled,
+    urlImportEnabled: next.urlImportEnabled,
+    discordEnabled: next.discordEnabled,
+    localesEnabled: next.localesEnabled,
+  };
+  await writeFile(CONFIG_PATH, `${JSON.stringify(stored, null, 2)}\n`, "utf8");
   await writeFile(
     PUBLIC_THEME_FILE,
     `${JSON.stringify({
       theme: next.theme,
+      mode: "automatic",
       updatedAt: next.updatedAt,
       adsEnabled: next.adsEnabled,
       analyticsEnabled: next.analyticsEnabled,
@@ -87,9 +107,10 @@ async function persist(config: SiteConfig): Promise<SiteConfig> {
   return next;
 }
 
-export async function writeSiteTheme(theme: SiteTheme): Promise<SiteConfig> {
+/** @deprecated Le thème est calendaire — no-op qui renvoie le thème auto. */
+export async function writeSiteTheme(_theme?: SiteTheme): Promise<SiteConfig> {
   const current = await readSiteConfig();
-  return persist({ ...current, theme });
+  return persist(current);
 }
 
 export async function writeSiteConfig(partial: Partial<SiteConfig>): Promise<SiteConfig> {
@@ -97,7 +118,8 @@ export async function writeSiteConfig(partial: Partial<SiteConfig>): Promise<Sit
   const next: SiteConfig = {
     ...current,
     ...partial,
-    theme: partial.theme && isSiteTheme(partial.theme) ? partial.theme : current.theme,
+    // Ignorer toute tentative de forcer un thème.
+    theme: resolveAutomaticTheme(),
     localesEnabled:
       partial.localesEnabled && partial.localesEnabled.length > 0
         ? partial.localesEnabled

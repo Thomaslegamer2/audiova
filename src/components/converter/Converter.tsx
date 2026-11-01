@@ -98,6 +98,7 @@ export function Converter() {
   const [urlBusy, setUrlBusy] = useState(false);
   const [urlPhase, setUrlPhase] = useState<"idle" | "fetch">("idle");
   const [urlError, setUrlError] = useState<ErrorCode | null>(null);
+  const [urlRightsOk, setUrlRightsOk] = useState(false);
   const dragDepth = useRef(0);
 
   useEffect(() => {
@@ -179,6 +180,10 @@ export function Converter() {
 
   const importFromUrl = async () => {
     if (urlBusy || queue.busy) {
+      return;
+    }
+    if (!urlRightsOk) {
+      setUrlError("url-blocked");
       return;
     }
     const trimmed = urlValue.trim();
@@ -289,6 +294,12 @@ export function Converter() {
           >
             <p className="text-xl font-semibold tracking-tight text-ink">{t.converter.urlTitle}</p>
             <p className="mt-2 max-w-xl text-sm leading-6 text-muted">{t.converter.urlText}</p>
+            <p
+              role="note"
+              className="mt-3 max-w-xl rounded-xl border border-line bg-panel/70 px-3 py-2 text-xs leading-5 text-muted"
+            >
+              {t.converter.urlServerNote}
+            </p>
             <div className="mt-5">
               <QualityControls
                 disabled={urlBusy || queue.busy}
@@ -320,9 +331,30 @@ export function Converter() {
                 className="h-12 w-full rounded-xl border border-line bg-card px-4 text-base text-ink placeholder:text-muted/70"
               />
             </label>
+            <label className="mt-4 flex cursor-pointer items-start gap-3 text-sm leading-5 text-ink">
+              <input
+                type="checkbox"
+                className="mt-1 size-4 shrink-0 rounded border-line accent-[var(--violet)]"
+                checked={urlRightsOk}
+                disabled={urlBusy || queue.busy}
+                onChange={(event) => {
+                  setUrlRightsOk(event.target.checked);
+                  if (urlError === "url-blocked") {
+                    setUrlError(null);
+                  }
+                }}
+              />
+              <span>{t.converter.urlRightsConfirm}</span>
+            </label>
             <button
               type="submit"
-              disabled={urlBusy || queue.busy || queue.jobs.length >= MAX_FILES || !urlValue.trim()}
+              disabled={
+                urlBusy ||
+                queue.busy ||
+                queue.jobs.length >= MAX_FILES ||
+                !urlValue.trim() ||
+                !urlRightsOk
+              }
               className="btn-brand mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-base font-semibold sm:w-auto"
             >
               <Link2 className="size-4" aria-hidden="true" />

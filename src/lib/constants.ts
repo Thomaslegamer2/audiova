@@ -3,6 +3,7 @@ import { BITRATES, SAMPLE_RATES, type Bitrate, type OutputFormatId, type SampleR
 export { BITRATES, SAMPLE_RATES };
 
 export const MAX_FILE_BYTES = 100 * 1024 * 1024;
+/** Limite réelle de la file — tous les textes UI / FAQ doivent rester alignés. */
 export const MAX_FILES = 20;
 export const MAX_HISTORY = 12;
 /** Durée de conservation des blobs pour re-téléchargement depuis l'historique. */

@@ -13,11 +13,23 @@ export function ToolPage({ tool, guide, faq }: { tool: ToolDefinition; guide: st
         <h1 className="mt-3 max-w-3xl text-4xl font-semibold tracking-[-0.03em] text-ink sm:text-5xl">{tool.title}</h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-muted">{tool.description}</p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <a href="#convertisseur" className="btn-brand inline-flex h-11 items-center rounded-xl px-5 text-sm font-semibold">
-            Utiliser l’outil
+          <a
+            href="#convertisseur"
+            className="btn-brand inline-flex h-11 items-center rounded-xl px-5 text-sm font-semibold"
+          >
+            Ouvrir le convertisseur
           </a>
-          <Link href="/outils" className="inline-flex h-11 items-center rounded-xl border border-line px-5 text-sm font-medium text-muted hover:text-ink">
+          <Link
+            href="/outils"
+            className="inline-flex h-11 items-center rounded-xl border border-line px-5 text-sm font-medium text-muted hover:text-ink"
+          >
             Tous les outils
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex h-11 items-center rounded-xl border border-line px-5 text-sm font-medium text-muted hover:text-ink"
+          >
+            Accueil Audiova
           </Link>
         </div>
       </section>

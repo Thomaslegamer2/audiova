@@ -72,6 +72,9 @@ export function Navbar() {
               {t.nav[link.key]}
             </a>
           ))}
+          <Link href="/outils" className="text-sm text-muted transition hover:text-ink">
+            Outils
+          </Link>
         </nav>
         <div className="ml-auto flex min-w-0 items-center gap-2">
           <label>

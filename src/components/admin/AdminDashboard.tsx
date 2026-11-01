@@ -2,32 +2,20 @@
 
 import {
   Activity,
-  BookOpen,
-  Clover,
-  Egg,
-  Flag,
-  Flower2,
   Gauge,
-  Ghost,
   HardDrive,
-  Heart,
-  Leaf,
   Link2,
   Lock,
   LogOut,
-  PartyPopper,
   Palette,
   RefreshCw,
   Server,
-  Snowflake,
   Sparkles,
-  Sun,
-  TreePine,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { AdminStats } from "@/lib/admin/stats";
 import { HISTORY_KEY, parseHistory } from "@/lib/history";
-import { SITE_THEMES, type SiteTheme, themeLabel } from "@/lib/theme-catalog";
+import { themeLabel } from "@/lib/theme-catalog";
 import { cn } from "@/lib/utils";
 
 function formatDuration(seconds: number): string {
@@ -93,23 +81,6 @@ function readBrowserIntel(): BrowserIntel {
   };
 }
 
-const themeIcons: Record<SiteTheme, typeof Sparkles> = {
-  default: Sparkles,
-  newyear: PartyPopper,
-  valentine: Heart,
-  carnival: PartyPopper,
-  stpatrick: Clover,
-  easter: Egg,
-  spring: Flower2,
-  summer: Sun,
-  bastille: Flag,
-  backtoschool: BookOpen,
-  autumn: Leaf,
-  halloween: Ghost,
-  christmas: TreePine,
-  winter: Snowflake,
-};
-
 export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boolean) => void } = {}) {
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
@@ -118,7 +89,6 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
   const [browser, setBrowser] = useState<BrowserIntel | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
-  const [themeBusy, setThemeBusy] = useState<SiteTheme | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
   const loadStats = useCallback(async () => {
@@ -219,35 +189,6 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
     }
   };
 
-  const applyTheme = async (theme: SiteTheme) => {
-    setThemeBusy(theme);
-    setMessage(null);
-    setError(null);
-    try {
-      const response = await fetch("/api/admin/theme", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ theme }),
-      });
-      if (!response.ok) {
-        setError("Changement de thème refusé.");
-        return;
-      }
-      document.documentElement.setAttribute("data-theme", theme);
-      try {
-        window.localStorage.setItem("audiova.site-theme", theme);
-      } catch {
-        // Stockage indisponible.
-      }
-      await loadStats();
-      setMessage(`Thème « ${themeLabel(theme)} » appliqué sur tout le site.`);
-    } catch {
-      setError("Changement de thème impossible.");
-    } finally {
-      setThemeBusy(null);
-    }
-  };
-
   const failureRows = useMemo(() => {
     if (!stats) {
       return [];
@@ -307,7 +248,7 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
           <p className="font-mono text-[11px] tracking-[0.18em] text-muted uppercase">Audiova · Admin</p>
           <h1 className="mt-2 text-3xl font-semibold tracking-tight">Tableau de bord</h1>
           <p className="mt-2 max-w-xl text-sm leading-6 text-muted">
-            Vue technique du convertisseur, métriques d’import URL, limites et thèmes du site.
+            Vue technique du convertisseur, métriques d’import URL et limites. Le thème suit le calendrier automatiquement.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -335,40 +276,28 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
       {error ? <p className="mt-6 rounded-xl border border-danger/30 bg-danger/10 px-4 py-3 text-sm text-danger">{error}</p> : null}
 
       <section className="mt-8">
-        <SectionTitle icon={Palette} title="Thème du site" subtitle="Le choix s’applique immédiatement à tous les visiteurs." />
-        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
-          {SITE_THEMES.map((theme) => {
-            const Icon = themeIcons[theme];
-            const meta = stats.theme.catalog.find((item) => item.id === theme);
-            const active = stats.theme.current === theme;
-            return (
-              <button
-                key={theme}
-                type="button"
-                disabled={themeBusy !== null}
-                onClick={() => applyTheme(theme)}
-                className={cn(
-                  "rounded-2xl border p-5 text-left transition",
-                  active ? "border-violet bg-violet/10 card-glow" : "border-line bg-card/70 hover:border-violet/40",
-                )}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <span className="flex size-10 items-center justify-center rounded-xl bg-panel text-glow">
-                    <Icon className="size-5" aria-hidden="true" />
-                  </span>
-                  {active ? (
-                    <span className="rounded-full bg-ok/15 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-ok uppercase">Actif</span>
-                  ) : null}
-                </div>
-                <p className="mt-4 text-lg font-semibold">{meta?.label ?? theme}</p>
-                <p className="mt-1 text-xs font-medium tracking-wide text-glow uppercase">{meta?.when}</p>
-                <p className="mt-2 text-sm leading-6 text-muted">{meta?.description}</p>
-                <p className="mt-4 text-xs text-muted">
-                  {themeBusy === theme ? "Application…" : active ? `Depuis ${formatWhen(stats.theme.updatedAt)}` : "Cliquer pour activer"}
-                </p>
-              </button>
-            );
-          })}
+        <SectionTitle
+          icon={Palette}
+          title="Thème du site"
+          subtitle="Automatique selon le calendrier (Europe/Paris). Aucune sélection manuelle."
+        />
+        <div className="mt-4 rounded-2xl border border-violet/40 bg-violet/10 p-5 card-glow">
+          <div className="flex items-center gap-3">
+            <span className="flex size-10 items-center justify-center rounded-xl bg-panel text-glow">
+              <Sparkles className="size-5" aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-lg font-semibold">{themeLabel(stats.theme.current)}</p>
+              <p className="mt-1 text-xs font-medium tracking-wide text-glow uppercase">Mode automatique</p>
+            </div>
+          </div>
+          <p className="mt-3 text-sm leading-6 text-muted">
+            {stats.theme.catalog.find((item) => item.id === stats.theme.current)?.description ??
+              "Thème saisonnier calculé aujourd’hui."}
+          </p>
+          <p className="mt-2 text-xs text-muted">
+            Période : {stats.theme.catalog.find((item) => item.id === stats.theme.current)?.when ?? "—"}
+          </p>
         </div>
       </section>
 
@@ -509,7 +438,7 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
       </section>
 
       <p className="mt-10 text-center text-xs text-muted">
-        Console cachée · ne pas indexer · session 8 h · thème courant : {themeLabel(stats.theme.current)}
+        Console cachée · ne pas indexer · session 8 h · thème auto : {themeLabel(stats.theme.current)}
       </p>
     </main>
   );

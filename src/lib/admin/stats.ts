@@ -14,7 +14,7 @@ import {
 import { getMetricsSnapshot } from "@/lib/admin/metrics";
 import { getSecurityEvents } from "@/lib/admin/security-log";
 import { contactEmail, getSiteUrl } from "@/lib/site";
-import { THEME_CATALOG, type SiteTheme } from "@/lib/theme-catalog";
+import { resolveAutomaticTheme, THEME_CATALOG, themeLabel, type SiteTheme } from "@/lib/theme-catalog";
 import { readSiteConfig } from "@/lib/site-config";
 import { buildAnalyticsReport } from "@/lib/analytics/store";
 import {
@@ -65,7 +65,9 @@ export async function buildAdminStats() {
       adminPath: "/av-ctl",
     },
     theme: {
-      current: config.theme as SiteTheme,
+      current: resolveAutomaticTheme() as SiteTheme,
+      mode: "automatic" as const,
+      label: themeLabel(resolveAutomaticTheme()),
       updatedAt: config.updatedAt,
       catalog: THEME_CATALOG,
     },

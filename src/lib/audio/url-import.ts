@@ -1,3 +1,4 @@
+import { isBlockedStreamingHost } from "@/lib/audio/blocked-hosts";
 import { MAX_FILE_BYTES } from "@/lib/constants";
 import type { ErrorCode } from "@/types/audio";
 
@@ -73,6 +74,9 @@ export function parseImportUrl(raw: string): { ok: true; url: URL } | { ok: fals
     return { ok: false, code: "url-blocked" };
   }
   if (isPrivateIpv4(host) || isPrivateIpv6(host)) {
+    return { ok: false, code: "url-blocked" };
+  }
+  if (isBlockedStreamingHost(host)) {
     return { ok: false, code: "url-blocked" };
   }
 

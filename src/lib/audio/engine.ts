@@ -116,6 +116,13 @@ export class FfmpegEngine {
         coreURL: this.coreUrl,
         wasmURL: this.wasmUrl,
       });
+      if (typeof navigator !== "undefined" && "serviceWorker" in navigator) {
+        const ready = await navigator.serviceWorker.ready.catch(() => null);
+        ready?.active?.postMessage({
+          type: "CACHE_ENGINE",
+          urls: [CORE_JS, CORE_WASM],
+        });
+      }
     } catch (error) {
       const detail = error instanceof Error ? `${error.name}: ${error.message}` : String(error);
       logTechnical("engine", detail);

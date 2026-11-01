@@ -1,59 +1,50 @@
 "use client";
 
 import { useLayoutEffect } from "react";
-import { isSiteTheme } from "@/lib/theme-catalog";
+import { resolveAutomaticTheme } from "@/lib/theme-catalog";
 
-const STORAGE_KEY = "audiova.site-theme";
-
-function applyTheme(theme: string) {
-  if (!isSiteTheme(theme)) {
-    return;
-  }
-  document.documentElement.dataset.theme = theme;
-  try {
-    window.localStorage.setItem(STORAGE_KEY, theme);
-  } catch {
-    // Stockage indisponible.
-  }
-}
-
+/**
+ * Applique le thème saisonnier automatique (calendrier Europe/Paris).
+ * Aucune sélection manuelle, aucun override admin / localStorage.
+ */
 export function ThemeSync() {
   useLayoutEffect(() => {
-    let cancelled = false;
-
     try {
-      const cached = window.localStorage.getItem(STORAGE_KEY);
-      if (cached && isSiteTheme(cached)) {
-        applyTheme(cached);
-      }
+      window.localStorage.removeItem("audiova.site-theme");
     } catch {
       // Ignore.
     }
 
-    (async () => {
-      try {
-        const response = await fetch(`/audiova-theme.json?ts=${Date.now()}`, { cache: "no-store" });
-        if (!response.ok || cancelled) {
-          return;
-        }
-        const data: unknown = await response.json();
-        if (
-          !cancelled &&
-          data &&
-          typeof data === "object" &&
-          "theme" in data &&
-          typeof (data as { theme: unknown }).theme === "string"
-        ) {
-          applyTheme((data as { theme: string }).theme);
-        }
-      } catch {
-        // Le thème par défaut reste en place.
-      }
-    })();
-
-    return () => {
-      cancelled = true;
+    const apply = () => {
+      document.documentElement.dataset.theme = resolveAutomaticTheme();
     };
+    apply();
+
+    const midnightParis = () => {
+      const now = Date.now();
+      const parts = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "Europe/Paris",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hourCycle: "h23",
+      }).formatToParts(new Date(now));
+      const hour = Number(parts.find((part) => part.type === "hour")?.value ?? 0);
+      const minute = Number(parts.find((part) => part.type === "minute")?.value ?? 0);
+      const second = Number(parts.find((part) => part.type === "second")?.value ?? 0);
+      const msUntilNextDay = ((24 - hour) * 3600 - minute * 60 - second) * 1000;
+      return Math.max(60_000, msUntilNextDay + 1_000);
+    };
+
+    let timer = window.setTimeout(function tick() {
+      apply();
+      timer = window.setTimeout(tick, midnightParis());
+    }, midnightParis());
+
+    return () => window.clearTimeout(timer);
   }, []);
 
   return null;

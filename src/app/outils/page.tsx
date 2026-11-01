@@ -5,8 +5,14 @@ import { TOOL_REGISTRY } from "@/lib/tools/registry";
 
 export const metadata: Metadata = {
   title: "Outils audio en ligne",
-  description: "Convertisseurs MP3, WAV, FLAC, MP4 et extraction audio. Outils Audiova gratuits dans le navigateur.",
+  description:
+    "Convertisseurs WAV, FLAC, M4A, OGG, MP4 vers MP3 et extraction audio. Outils Audiova gratuits dans le navigateur.",
   alternates: { canonical: "/outils" },
+  openGraph: {
+    title: "Outils audio en ligne — Audiova",
+    description: "Convertisseurs MP3 et extraction audio. Conversion locale dans le navigateur.",
+    url: "/outils",
+  },
 };
 
 export default function ToolsHubPage() {

@@ -2,19 +2,20 @@
 
 Convertisseur audio dans le navigateur (**audiova.site**). Les fichiers choisis sur l’appareil restent locaux : FFmpeg.wasm les encode, puis le format choisi est proposé au téléchargement. Un lien vidéo ou audio peut aussi être importé : le serveur récupère temporairement le média avec yt-dlp, puis la conversion reste locale.
 
-Slogan : Your audio. Your format. Your freedom.
+Accroche : Convertissez en MP3 en 3 clics, sans compte ni téléversement (fichiers locaux).
 
 ## Fonctionnalités
 
-- Import de fichiers (5 max), glisser-déposer, et import depuis un lien (`/api/import-url`).
-- Sorties : MP3, WAV, FLAC, AAC, OGG, M4A — débits et fréquences réglables selon le format.
-- Métadonnées recopiées quand FFmpeg le permet ; lecteur local ; historique navigateur (sans audio).
-- 7 langues (fr, en, es, de, it, pt, nl) et 14 thèmes saisonniers pilotés depuis l’admin.
-- Pages SEO `/outils/*` pour les convertisseurs réellement disponibles ; outils futurs clairement marqués « bientôt ».
-- Bannière de consentement, analytics internes optionnelles, emplacements pubs gated (désactivés par défaut).
+- Import de fichiers (20 max), glisser-déposer, et import depuis un lien (`/api/import-url`) avec confirmation de droits et domaines streaming bloqués.
+- Sorties : MP3, WAV, FLAC, AAC, OGG, M4A — presets Podcast 128 / Équilibré 192 / Qualité max 320.
+- Métadonnées recopiées quand FFmpeg le permet ; lecteur local ; historique navigateur (re-téléchargement ~30 min).
+- 7 langues (fr, en, es, de, it, pt, nl) et thèmes saisonniers **automatiques** (calendrier Europe/Paris, sans choix manuel).
+- Pages SEO `/outils/*` (WAV, FLAC, M4A, OGG, MP4 → MP3, etc.) ; sitemap + robots.
+- PWA (service worker + cache moteur FFmpeg une fois chargé).
+- Bannière de consentement, analytics internes optionnelles, pubs AdSense gated (désactivées sur /privacy et /legal), bouton don.
 - Console admin cachée `/av-ctl` : thèmes, analytics réelles, toggles site, sécurité.
 
-Limites code : 100 Mo / fichier, 5 fichiers, 1 conversion à la fois, timeout 15 min.
+Limites code : 100 Mo / fichier, 20 fichiers, 1 conversion à la fois, timeout 15 min.
 
 ## Démarrage (Windows)
 
@@ -35,7 +36,9 @@ Variables utiles (voir `.env.example`) :
 | `NEXT_PUBLIC_SITE_URL` | URL publique (sitemap, canonical) |
 | `NEXT_PUBLIC_CONTACT_EMAIL` | Affiché sur `/contact` si valide |
 | `NEXT_PUBLIC_ADS_ENABLED` | Hint legacy ; le toggle admin `adsEnabled` prime via `audiova-theme.json` |
-| `ADMIN_PASSWORD` | Mot de passe admin (≥ 12 caractères) |
+| `NEXT_PUBLIC_ADSENSE_CLIENT` / `SLOT` | Emplacement AdSense optionnel |
+| `NEXT_PUBLIC_DONATE_URL` | Lien Ko-fi / Buy Me a Coffee |
+| `ADMIN_PASSWORD` | Mot de passe admin (≥ 8 caractères) |
 | `ADMIN_SESSION_SECRET` | Secret HMAC session (≥ 32 caractères) |
 
 ## Vérifier

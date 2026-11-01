@@ -6,6 +6,7 @@ import { ThemeSync } from "@/components/layout/ThemeSync";
 import { AppProviders } from "@/components/providers";
 import { fr } from "@/i18n/fr";
 import { getSiteUrl } from "@/lib/site";
+import { resolveAutomaticTheme } from "@/lib/theme-catalog";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -60,10 +61,11 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const theme = resolveAutomaticTheme();
   return (
     <html
       lang="fr"
-      data-theme="default"
+      data-theme={theme}
       data-scroll-behavior="smooth"
       className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning

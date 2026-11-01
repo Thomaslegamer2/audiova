@@ -1,13 +1,23 @@
 import { describe, expect, it } from "vitest";
+import { isBlockedStreamingHost } from "@/lib/audio/blocked-hosts";
 import { classifyYtDlpFailure, parseImportUrl, sanitizeDownloadBaseName } from "@/lib/audio/url-import";
 
 describe("import depuis une URL", () => {
-  it("accepte une URL publique https", () => {
-    const parsed = parseImportUrl(" https://www.youtube.com/watch?v=dQw4w9WgXcQ ");
+  it("accepte une URL publique https hors plateformes bloquées", () => {
+    const parsed = parseImportUrl(" https://cdn.example.com/track.mp3 ");
     expect(parsed.ok).toBe(true);
     if (parsed.ok) {
-      expect(parsed.url.hostname).toBe("www.youtube.com");
+      expect(parsed.url.hostname).toBe("cdn.example.com");
     }
+  });
+
+  it("refuse les plateformes de streaming / vidéo listées", () => {
+    expect(parseImportUrl("https://www.youtube.com/watch?v=dQw4w9WgXcQ").ok).toBe(false);
+    expect(parseImportUrl("https://youtu.be/dQw4w9WgXcQ").ok).toBe(false);
+    expect(parseImportUrl("https://open.spotify.com/track/abc").ok).toBe(false);
+    expect(parseImportUrl("https://www.netflix.com/watch/1").ok).toBe(false);
+    expect(isBlockedStreamingHost("m.youtube.com")).toBe(true);
+    expect(isBlockedStreamingHost("cdn.example.com")).toBe(false);
   });
 
   it("refuse les adresses locales et les schémas dangereux", () => {

@@ -61,6 +61,15 @@ export const TOOL_REGISTRY: readonly ToolDefinition[] = [
     keywords: ["m4a", "mp3", "aac"],
   },
   {
+    id: "ogg-mp3",
+    slug: "ogg-vers-mp3",
+    title: "OGG vers MP3",
+    description: "Convertissez un fichier OGG/Vorbis en MP3 portable.",
+    status: "live",
+    href: "/outils/ogg-vers-mp3",
+    keywords: ["ogg", "mp3", "vorbis"],
+  },
+  {
     id: "video-audio",
     slug: "video-vers-audio",
     title: "Vidéo vers audio",

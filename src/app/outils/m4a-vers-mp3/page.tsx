@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Convertisseur M4A vers MP3",
   description: "Convertissez M4A/AAC en MP3 pour une lecture plus universelle.",
   alternates: { canonical: tool.href },
+  openGraph: {
+    title: "Convertisseur M4A vers MP3",
+    description: "Convertissez M4A/AAC en MP3 pour une lecture plus universelle.",
+    url: tool.href,
+  },
 };
 
 export default function Page() {

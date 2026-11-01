@@ -42,13 +42,15 @@ export default function OpenGraphImage() {
             <span style={{ color: "#00D1FF" }}>va</span>
           </div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", fontSize: 76, lineHeight: 1, fontWeight: 600 }}>
-          <div>Votre audio.</div>
-          <div style={{ display: "flex", marginTop: 8 }}>
-            En <span style={{ color: "#C84BFF", marginLeft: 16 }}>MP3</span>.
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 72, lineHeight: 1.05, fontWeight: 600 }}>
+          <div>Votre audio</div>
+          <div style={{ display: "flex", marginTop: 12 }}>
+            en <span style={{ color: "#C84BFF", marginLeft: 16 }}>MP3</span>.
           </div>
         </div>
-        <div style={{ fontSize: 28, color: "#9AA0B8" }}>Your audio. Your format. Your freedom.</div>
+        <div style={{ fontSize: 26, color: "#9AA0B8", maxWidth: 900 }}>
+          Convertissez en MP3 en 3 clics — conversion locale, sans compte.
+        </div>
       </div>
     ),
     size,

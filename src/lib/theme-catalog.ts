@@ -134,3 +134,78 @@ export function isSiteTheme(value: unknown): value is SiteTheme {
 export function themeLabel(id: SiteTheme): string {
   return THEME_CATALOG.find((item) => item.id === id)?.label ?? id;
 }
+
+/** Date civile Europe/Paris (midi) pour un instant donné. */
+export function parisCivilDate(now = new Date()): Date {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Europe/Paris",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(now);
+  const year = Number(parts.find((part) => part.type === "year")?.value);
+  const month = Number(parts.find((part) => part.type === "month")?.value);
+  const day = Number(parts.find((part) => part.type === "day")?.value);
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+}
+
+/** Algorithme de Meeus/Jones/Butcher — dimanche de Pâques (calendrier grégorien). */
+export function easterSunday(year: number): Date {
+  const a = year % 19;
+  const b = Math.floor(year / 100);
+  const c = year % 100;
+  const d = Math.floor(b / 4);
+  const e = b % 4;
+  const f = Math.floor((b + 8) / 25);
+  const g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30;
+  const i = Math.floor(c / 4);
+  const k = c % 4;
+  const l = (32 + 2 * e + 2 * i - h - k) % 7;
+  const m = Math.floor((a + 11 * h + 22 * l) / 451);
+  const month = Math.floor((h + l - 7 * m + 114) / 31);
+  const day = ((h + l - 7 * m + 114) % 31) + 1;
+  return new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+}
+
+function dayOffset(base: Date, days: number): Date {
+  return new Date(base.getTime() + days * 86_400_000);
+}
+
+function inRange(date: Date, start: Date, end: Date): boolean {
+  const t = date.getTime();
+  return t >= start.getTime() && t <= end.getTime();
+}
+
+/**
+ * Thème saisonnier automatique (fuseau Europe/Paris).
+ * Aucune sélection manuelle : les périodes festives priment sur les saisons.
+ */
+export function resolveAutomaticTheme(now = new Date()): SiteTheme {
+  const date = parisCivilDate(now);
+  const year = date.getUTCFullYear();
+  const month = date.getUTCMonth() + 1;
+  const day = date.getUTCDate();
+  const md = month * 100 + day;
+
+  const easter = easterSunday(year);
+  const carnivalStart = dayOffset(easter, -49);
+  const carnivalEnd = dayOffset(easter, -46);
+  const easterStart = dayOffset(easter, -7);
+  const easterEnd = dayOffset(easter, 2);
+
+  if (md >= 1020 && md <= 1102) return "halloween";
+  if (md >= 1201 && md <= 1226) return "christmas";
+  if (md >= 1227 || md <= 105) return "newyear";
+  if (md >= 210 && md <= 216) return "valentine";
+  if (md >= 315 && md <= 318) return "stpatrick";
+  if (md >= 712 && md <= 716) return "bastille";
+  if (md >= 901 && md <= 914) return "backtoschool";
+  if (inRange(date, carnivalStart, carnivalEnd)) return "carnival";
+  if (inRange(date, easterStart, easterEnd)) return "easter";
+
+  if (md >= 320 && md <= 620) return "spring";
+  if (md >= 621 && md <= 831) return "summer";
+  if (md >= 915 && md <= 1119) return "autumn";
+  return "winter";
+}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { DiscordLink } from "@/components/layout/DiscordLink";
+import { DonateLink } from "@/components/layout/DonateLink";
 import { Logo } from "@/components/layout/Logo";
 import { useI18n } from "@/components/providers";
 import { COPYRIGHT_YEAR } from "@/lib/constants";
@@ -48,11 +49,10 @@ export function Footer() {
         <div>
           <Logo size="footer" />
           <p className="mt-4 max-w-sm text-sm leading-6 text-muted">{t.footer.description}</p>
-          {discordEnabled ? (
-            <div className="mt-5">
-              <DiscordLink label={t.nav.discord} showLabel className="px-3" />
-            </div>
-          ) : null}
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <DonateLink />
+            {discordEnabled ? <DiscordLink label={t.nav.discord} showLabel className="px-3" /> : null}
+          </div>
         </div>
         <div>
           <p className="font-mono text-xs tracking-[0.16em] text-muted uppercase">{t.footer.product}</p>

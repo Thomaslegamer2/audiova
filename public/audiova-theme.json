@@ -1,1 +1,8 @@
-{"theme":"halloween","updatedAt":"2026-10-31T23:03:20.232Z","adsEnabled":true,"analyticsEnabled":true}
+{
+  "theme": "halloween",
+  "mode": "automatic",
+  "updatedAt": "2026-11-01T21:30:00.000Z",
+  "adsEnabled": true,
+  "analyticsEnabled": true,
+  "discordEnabled": true
+}

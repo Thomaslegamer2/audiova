@@ -4,7 +4,7 @@ export const de: Dictionary = {
   meta: {
     title: "Audiova — Kostenloser Online-MP3-Konverter",
     description:
-      "Konvertieren Sie eine Audiodatei im Browser zu MP3. WAV, FLAC, M4A, OGG und Videospuren. Kostenlos, ohne Installation, ohne Upload bei lokaler Konvertierung.",
+      "Konvertieren Sie WAV, FLAC, M4A, OGG oder eine Videospur im Browser zu MP3. Kostenlos, ohne Konto. Lokale Dateien ohne Upload; Link-Import über den Server.",
     ogAlt: "Audiova, Audio-zu-MP3-Konverter",
   },
   skip: "Zum Inhalt springen",
@@ -21,16 +21,16 @@ export const de: Dictionary = {
     discord: "Discord beitreten",
   },
   hero: {
-    slogan: "Your audio. Your format. Your freedom.",
-    titleLead: "Ihr Audio.",
-    titleRest: "Als",
+    slogan: "In 3 Klicks zu MP3 — ohne Konto, ohne Upload bei lokalen Dateien",
+    titleLead: "Ihr Audio",
+    titleRest: "in",
     titleAccent: "MP3",
-    titleEnd: ". Einfach.",
+    titleEnd: ".",
     subtitle:
-      "Konvertieren Sie Audiodateien in wenigen Klicks zu MP3. Kostenlos, einfach und ohne Installation.",
+      "Lokale Konvertierung im Browser. Ihre Dateien bleiben auf dem Gerät — außer beim Link-Import, der über den Server läuft.",
     primary: "Datei konvertieren",
     secondary: "Funktionen entdecken",
-    points: ["Einfach und schnell.", "Anpassbare Audioqualität.", "Keine Installation nötig."],
+    points: ["Kein Konto.", "Lokale Konvertierung (FFmpeg.wasm).", "Datenschutz für Ihre Dateien."],
     monitor: "Monitor",
     demo: "Demonstrationssignal",
     demoHint: "Diese Wellenform wird auf dem Bildschirm gezeichnet. Sie spielt Ihre Datei nicht ab.",
@@ -80,7 +80,10 @@ export const de: Dictionary = {
     sourceUrl: "Link",
     urlTitle: "Von einem Link importieren",
     urlText:
-      "Fügen Sie die Adresse eines Videos oder Titels ein. Audiova holt das Medium; danach wählen Sie die Qualität vor Konvertierung und Download.",
+      "Fügen Sie die Adresse eines Videos oder Titels ein. Der Audiova-Server lädt das Medium vorübergehend herunter; danach wählen Sie die Qualität und die Konvertierung läuft im Browser vor dem Download.",
+    urlServerNote:
+      "Die URL wird an den Audiova-Server gesendet, der das Medium vorübergehend herunterlädt. Die Konvertierung erfolgt anschließend lokal in Ihrem Browser. Das ist kein Modus « ohne Upload ».",
+    urlRightsConfirm: "Ich bestätige, dass ich die Rechte an diesem Inhalt habe",
     urlPlaceholder: "https://…",
     urlSubmit: "Medium importieren",
     urlLoading: "Medium wird abgerufen…",
@@ -97,9 +100,9 @@ export const de: Dictionary = {
     quality: "Ausgabequalität",
     qualityHint:
       "Vor dem Start wählen. 320 kb/s ist die maximale MP3-Bitrate; FLAC und WAV sind verlustfrei (beste Treue, größere Datei).",
-    presetLight: "Leicht",
-    presetStandard: "Standard",
-    presetBest: "Bestes MP3",
+    presetLight: "Podcast 128 kb/s",
+    presetStandard: "Ausgewogen 192 kb/s",
+    presetBest: "Maximale Qualität 320 kb/s",
     presetLossless: "Verlustfrei",
     bestBadge: "Max",
     metadata: "Metadaten behalten",
@@ -129,12 +132,13 @@ export const de: Dictionary = {
   },
   errors: {
     unsupported: "Dieses Format wird nicht unterstützt.",
-    damaged: "Die Datei scheint beschädigt zu sein.",
+    damaged: "Die Datei scheint beschädigt, korrupt oder nicht lesbar zu sein.",
     memory: "Nicht genug Speicher, um diese Datei zu verarbeiten.",
     failed: "Konvertierung fehlgeschlagen. Versuchen Sie eine andere Datei.",
     "too-large": "Die Dateigröße überschreitet das erlaubte Limit.",
     empty: "Die Datei ist leer.",
-    "no-audio": "Keine nutzbare Audiospur gefunden.",
+    "no-audio":
+      "Keine nutzbare Audiospur gefunden (geschützte Datei oder fehlende Audiospur).",
     engine: "Die Audio-Engine konnte nicht geladen werden. Seite neu laden und erneut versuchen.",
     "too-many": "Dateilimit erreicht. Zusätzliche Dateien wurden ignoriert.",
     timeout: "Die Konvertierung hat zu lange gedauert. Versuchen Sie eine kürzere Datei.",
@@ -164,9 +168,9 @@ export const de: Dictionary = {
     expired: "Datei abgelaufen — erneut konvertieren, um sie zu erhalten.",
   },
   features: {
-    title: "Ein Hörwerkzeug, kein Formular",
+    title: "In 3 Klicks zu MP3",
     intro:
-      "Audiova konvertiert lokal, mit den nützlichen Einstellungen und sonst nichts. Versprechen entsprechen dem, was die Engine wirklich tut.",
+      "Audiova konvertiert Dateien von Ihrem Gerät lokal, mit den nützlichen Einstellungen und sonst nichts. Link-Import läuft zuerst über den Server; die Konvertierung bleibt im Browser.",
     items: [
       {
         title: "Vereinfachte Konvertierung",
@@ -226,14 +230,14 @@ export const de: Dictionary = {
       {
         question: "Kann ich ein Video oder einen Titel per Link importieren?",
         answer: [
-          "Ja. Im Konverter den Tab Link öffnen, Adresse einfügen und auf Konvertieren und herunterladen klicken. Audiova holt das Medium, konvertiert es und startet den Download.",
+          "Ja. Im Konverter den Tab Link öffnen und die Adresse einfügen. Die URL wird zuerst an den Audiova-Server gesendet, der das Medium vorübergehend herunterlädt und an Sie zurückgibt. Die Konvertierung läuft anschließend lokal im Browser, dann startet der Download.",
           "Nicht jede Seite funktioniert. Private, geschützte oder zu große Inhalte (über 100 MB) werden abgelehnt. Nur Inhalte importieren, für die Sie Rechte haben.",
         ],
       },
       {
         question: "Ist der Konverter kostenlos?",
         answer: [
-          "Ja. Diese Version ist kostenlos, ohne Konto und ohne Kontingent. Jede Datei muss unter 100 MB bleiben, die Warteschlange nimmt höchstens 5 Dateien.",
+          "Ja. Diese Version ist kostenlos, ohne Konto und ohne Kontingent. Jede Datei muss unter 100 MB bleiben, die Warteschlange nimmt höchstens 20 Dateien.",
         ],
       },
       {
@@ -266,7 +270,7 @@ export const de: Dictionary = {
       {
         question: "Was ist die maximale Dateigröße?",
         answer: [
-          "100 MB pro Datei. Darüber wird die Datei vor der Konvertierung abgelehnt. Fünf Dateien können vorbereitet und nacheinander konvertiert werden.",
+          "100 MB pro Datei. Darüber wird die Datei vor der Konvertierung abgelehnt. Bis zu 20 Dateien können vorbereitet und nacheinander konvertiert werden.",
         ],
       },
       {
@@ -279,7 +283,7 @@ export const de: Dictionary = {
       {
         question: "Kann ich mehrere Dateien gleichzeitig konvertieren?",
         answer: [
-          "Ja, bis zu 5. Dieselben Einstellungen gelten für die Warteschlange. Es wird jeweils nur eine Datei kodiert, um den Speicher zu schonen.",
+          "Ja, bis zu 20. Dieselben Einstellungen gelten für die Warteschlange. Es wird jeweils nur eine Datei kodiert, um den Speicher zu schonen.",
         ],
       },
       {
@@ -304,7 +308,9 @@ export const de: Dictionary = {
     ],
   },
   footer: {
-    description: "Audio-Konverter im Browser. Your audio. Your format. Your freedom.",
+    description: "Audio-Konverter im Browser. Lokale Konvertierung, ohne Konto.",
+    donate: "Spendier mir einen Kaffee",
+    donateHint: "Audiova unterstützen (werbefrei per Spende)",
     product: "Produkt",
     information: "Informationen",
     privacy: "Datenschutz",
@@ -338,7 +344,7 @@ export const de: Dictionary = {
         title: "Verlauf im Browser",
         paragraphs: [
           "Bei erfolgreicher Konvertierung kann der Browser lokal Name, Datum, Format, Bitrate und Abtastrate speichern. Die Daten bleiben auf dem Gerät. Sie können sie im Verlauf löschen.",
-          "Audio wird nicht gespeichert. Der Verlauf erlaubt keinen erneuten Download.",
+          "Audio wird nicht dauerhaft gespeichert. Ein erneuter Download ist etwa 30 Minuten über den lokalen Browser-Cache möglich.",
         ],
       },
       {

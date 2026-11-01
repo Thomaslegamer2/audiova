@@ -4,7 +4,7 @@ export const nl: Dictionary = {
   meta: {
     title: "Audiova — Gratis online MP3-converter",
     description:
-      "Zet een audiobestand in de browser om naar MP3. WAV, FLAC, M4A, OGG en videosporen. Gratis, zonder installatie, zonder upload bij lokale conversie.",
+      "Zet WAV, FLAC, M4A, OGG of een videospoor in de browser om naar MP3. Gratis, zonder account. Lokale bestanden zonder upload; linkimport via de server.",
     ogAlt: "Audiova, audio-naar-MP3-converter",
   },
   skip: "Ga naar de inhoud",
@@ -21,16 +21,16 @@ export const nl: Dictionary = {
     discord: "Join Discord",
   },
   hero: {
-    slogan: "Your audio. Your format. Your freedom.",
-    titleLead: "Jouw audio.",
-    titleRest: "Als",
+    slogan: "Naar MP3 in 3 klikken — geen account, geen upload voor lokale bestanden",
+    titleLead: "Jouw audio",
+    titleRest: "in",
     titleAccent: "MP3",
-    titleEnd: ". Gewoon.",
+    titleEnd: ".",
     subtitle:
-      "Zet audiobestanden in een paar klikken om naar MP3. Gratis, eenvoudig en zonder installatie.",
+      "Lokale conversie in de browser. Je bestanden blijven op je apparaat — behalve linkimport, die via de server gaat.",
     primary: "Bestand converteren",
     secondary: "Functies bekijken",
-    points: ["Eenvoudig en snel.", "Instelbare audiokwaliteit.", "Geen installatie nodig."],
+    points: ["Geen account.", "Lokale conversie (FFmpeg.wasm).", "Privacy voor je bestanden."],
     monitor: "Monitor",
     demo: "Demonstratiesignaal",
     demoHint: "Deze golfvorm wordt op het scherm getekend. Hij speelt je bestand niet af.",
@@ -80,7 +80,10 @@ export const nl: Dictionary = {
     sourceUrl: "Link",
     urlTitle: "Importeren via een link",
     urlText:
-      "Plak het adres van een video of track. Audiova haalt het medium op; daarna kies je de kwaliteit vóór converteren en downloaden.",
+      "Plak het adres van een video of track. De Audiova-server downloadt het medium tijdelijk; daarna kies je de kwaliteit en de conversie gebeurt in je browser vóór het downloaden.",
+    urlServerNote:
+      "De URL wordt naar de Audiova-server gestuurd, die het medium tijdelijk downloadt. De conversie gebeurt daarna lokaal in je browser. Dit is geen modus « zonder upload ».",
+    urlRightsConfirm: "Ik bevestig dat ik rechten heb op deze content",
     urlPlaceholder: "https://…",
     urlSubmit: "Medium importeren",
     urlLoading: "Medium ophalen…",
@@ -97,9 +100,9 @@ export const nl: Dictionary = {
     quality: "Uitvoerkwaliteit",
     qualityHint:
       "Kies vóór je start. 320 kb/s is de maximale MP3-bitrate; FLAC en WAV zijn verliesvrij (beste getrouwheid, groter bestand).",
-    presetLight: "Licht",
-    presetStandard: "Standaard",
-    presetBest: "Beste MP3",
+    presetLight: "Podcast 128 kb/s",
+    presetStandard: "Gebalanceerd 192 kb/s",
+    presetBest: "Maximale kwaliteit 320 kb/s",
     presetLossless: "Verliesvrij",
     bestBadge: "Max",
     metadata: "Metadata behouden",
@@ -129,12 +132,13 @@ export const nl: Dictionary = {
   },
   errors: {
     unsupported: "Dit formaat wordt niet ondersteund.",
-    damaged: "Het bestand lijkt beschadigd.",
+    damaged: "Het bestand lijkt beschadigd, corrupt of onleesbaar.",
     memory: "Onvoldoende geheugen om dit bestand te verwerken.",
     failed: "Conversie mislukt. Probeer een ander bestand.",
     "too-large": "De bestandsgrootte overschrijdt de toegestane limiet.",
     empty: "Het bestand is leeg.",
-    "no-audio": "Geen bruikbaar audiospoor gevonden.",
+    "no-audio":
+      "Geen bruikbaar audiospoor gevonden (beschermd bestand of ontbrekend audiospoor).",
     engine: "De audio-engine kon niet worden geladen. Herlaad de pagina en probeer opnieuw.",
     "too-many": "Bestandslimiet bereikt. Extra bestanden zijn genegeerd.",
     timeout: "De conversie duurde te lang. Probeer een korter bestand.",
@@ -164,9 +168,9 @@ export const nl: Dictionary = {
     expired: "Bestand verlopen — converteer opnieuw om het terug te krijgen.",
   },
   features: {
-    title: "Een luistertool, geen formulier",
+    title: "Naar MP3 in 3 klikken",
     intro:
-      "Audiova converteert lokaal, met de nuttige instellingen en verder niets. Beloftes komen overeen met wat de engine echt doet.",
+      "Audiova converteert bestanden van je apparaat lokaal, met de nuttige instellingen en verder niets. Linkimport gaat eerst via de server; conversie blijft in de browser.",
     items: [
       {
         title: "Vereenvoudigde conversie",
@@ -226,14 +230,14 @@ export const nl: Dictionary = {
       {
         question: "Kan ik een video of track via een link importeren?",
         answer: [
-          "Ja. Open in de converter het tabblad Link, plak het adres en klik op Converteren en downloaden. Audiova haalt het medium op, converteert het en start de download.",
+          "Ja. Open in de converter het tabblad Link en plak het adres. De URL gaat eerst naar de Audiova-server, die het medium tijdelijk downloadt en aan je teruggeeft. De conversie gebeurt daarna lokaal in je browser, daarna start de download.",
           "Niet elke site werkt. Privé-, beveiligde of te zware content (boven 100 MB) wordt geweigerd. Importeer alleen content waarvoor je rechten hebt.",
         ],
       },
       {
         question: "Is de converter gratis?",
         answer: [
-          "Ja. Deze versie is gratis, zonder account en zonder quotum. Elk bestand moet onder 100 MB blijven en de wachtrij accepteert maximaal 5 bestanden.",
+          "Ja. Deze versie is gratis, zonder account en zonder quotum. Elk bestand moet onder 100 MB blijven en de wachtrij accepteert maximaal 20 bestanden.",
         ],
       },
       {
@@ -266,7 +270,7 @@ export const nl: Dictionary = {
       {
         question: "Wat is de maximale bestandsgrootte?",
         answer: [
-          "100 MB per bestand. Daarboven wordt het bestand vóór conversie geweigerd. Er kunnen vijf bestanden worden voorbereid en daarna één voor één geconverteerd.",
+          "100 MB per bestand. Daarboven wordt het bestand vóór conversie geweigerd. Er kunnen tot 20 bestanden worden voorbereid en daarna één voor één geconverteerd.",
         ],
       },
       {
@@ -279,7 +283,7 @@ export const nl: Dictionary = {
       {
         question: "Kan ik meerdere bestanden tegelijk converteren?",
         answer: [
-          "Ja, tot 5. Dezelfde instellingen gelden voor de wachtrij. Er wordt telkens één bestand gecodeerd om geheugen te sparen.",
+          "Ja, tot 20. Dezelfde instellingen gelden voor de wachtrij. Er wordt telkens één bestand gecodeerd om geheugen te sparen.",
         ],
       },
       {
@@ -304,7 +308,9 @@ export const nl: Dictionary = {
     ],
   },
   footer: {
-    description: "Audio-converter in de browser. Your audio. Your format. Your freedom.",
+    description: "Audio-converter in de browser. Lokale conversie, zonder account.",
+    donate: "Trakteer me op een koffie",
+    donateHint: "Steun Audiova (advertentievrij via donatie)",
     product: "Product",
     information: "Informatie",
     privacy: "Privacy",
@@ -338,7 +344,7 @@ export const nl: Dictionary = {
         title: "Geschiedenis in de browser",
         paragraphs: [
           "Als een conversie slaagt, kan de browser lokaal naam, datum, formaat, bitrate en frequentie opslaan. De gegevens blijven op het apparaat. Je kunt ze wissen in de geschiedenissectie.",
-          "Audio wordt niet opgeslagen. Geschiedenis laat geen nieuwe download toe.",
+          "Audio wordt niet permanent opgeslagen. Opnieuw downloaden kan ongeveer 30 minuten via de lokale browsercache.",
         ],
       },
       {

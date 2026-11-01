@@ -4,7 +4,7 @@ export const en: Dictionary = {
   meta: {
     title: "Audiova — Free online MP3 converter",
     description:
-      "Convert an audio file to MP3 in your browser. WAV, FLAC, M4A, OGG and video tracks. Free, no install, no file upload for local conversion.",
+      "Convert WAV, FLAC, M4A, OGG, or a video track to MP3 in your browser. Free, no account. Local files without upload; link import goes through the server.",
     ogAlt: "Audiova, audio to MP3 converter",
   },
   skip: "Skip to content",
@@ -21,16 +21,16 @@ export const en: Dictionary = {
     discord: "Join Discord",
   },
   hero: {
-    slogan: "Your audio. Your format. Your freedom.",
-    titleLead: "Your audio.",
-    titleRest: "In",
+    slogan: "Convert to MP3 in 3 clicks — no account, no upload for local files",
+    titleLead: "Your audio",
+    titleRest: "in",
     titleAccent: "MP3",
-    titleEnd: ". Simply.",
+    titleEnd: ".",
     subtitle:
-      "Convert your audio files to MP3 in a few clicks. Free, simple, and with no installation.",
+      "Local conversion in your browser. Your files stay on your device — except link import, which goes through the server.",
     primary: "Convert a file",
     secondary: "Explore features",
-    points: ["Simple and fast.", "Adjustable audio quality.", "No installation required."],
+    points: ["No account.", "Local conversion (FFmpeg.wasm).", "Privacy for your files."],
     monitor: "Monitor",
     demo: "Demo signal",
     demoHint: "This waveform is drawn on screen. It does not play your file.",
@@ -80,7 +80,10 @@ export const en: Dictionary = {
     sourceUrl: "Link",
     urlTitle: "Import from a link",
     urlText:
-      "Paste the address of a video or track. Audiova fetches the media, then you choose quality before converting and downloading.",
+      "Paste the address of a video or track. Audiova's server temporarily downloads the media, then you choose quality and conversion runs in your browser before download.",
+    urlServerNote:
+      "The URL is sent to Audiova's server, which temporarily downloads the media. Conversion then runs locally in your browser. This is not a no-upload mode.",
+    urlRightsConfirm: "I confirm I have the rights to this content",
     urlPlaceholder: "https://…",
     urlSubmit: "Import media",
     urlLoading: "Fetching media…",
@@ -97,9 +100,9 @@ export const en: Dictionary = {
     quality: "Output quality",
     qualityHint:
       "Choose before you start. 320 kb/s is the max MP3 bitrate; FLAC and WAV are lossless (best fidelity, larger file).",
-    presetLight: "Light",
-    presetStandard: "Standard",
-    presetBest: "Best MP3",
+    presetLight: "Podcast 128 kb/s",
+    presetStandard: "Balanced 192 kb/s",
+    presetBest: "Maximum quality 320 kb/s",
     presetLossless: "Lossless",
     bestBadge: "Max",
     metadata: "Keep metadata",
@@ -129,17 +132,19 @@ export const en: Dictionary = {
   },
   errors: {
     unsupported: "This format is not supported.",
-    damaged: "The file appears damaged.",
+    damaged: "The file appears damaged, corrupted, or unreadable.",
     memory: "There is not enough memory to process this file.",
     failed: "Conversion failed. Try another file.",
     "too-large": "The file size exceeds the allowed limit.",
     empty: "The file is empty.",
-    "no-audio": "No usable audio track was found.",
+    "no-audio":
+      "No usable audio track was found (protected file or missing audio track).",
     engine: "The audio engine could not be loaded. Reload the page, then try again.",
     "too-many": "File limit reached. Extra files were ignored.",
     timeout: "Conversion took too long. Try a shorter file.",
     "url-invalid": "This link is not valid.",
-    "url-blocked": "This address is not allowed.",
+    "url-blocked":
+      "This address is not allowed. Listed streaming/video platforms are blocked, and rights confirmation is required.",
     "url-fetch": "The media could not be fetched. Check the link, then try again.",
     "url-unavailable": "This content is unavailable or not supported.",
     "url-busy": "Another link import is already running. Try again shortly.",
@@ -164,9 +169,9 @@ export const en: Dictionary = {
     expired: "File expired — run a conversion again to get it back.",
   },
   features: {
-    title: "A listening tool, not a form",
+    title: "Convert to MP3 in 3 clicks",
     intro:
-      "Audiova converts locally, with the useful settings and nothing else. Promises match what the engine actually does.",
+      "Audiova converts files from your device locally, with the useful settings and nothing else. Link import goes through the server first; conversion then stays in the browser.",
     items: [
       {
         title: "Simplified conversion",
@@ -226,14 +231,14 @@ export const en: Dictionary = {
       {
         question: "Can I import a video or track from a link?",
         answer: [
-          "Yes. In the converter, open the Link tab, paste the address, then click Convert and download. Audiova fetches the media, converts it, then starts the file download.",
+          "Yes. In the converter, open the Link tab and paste the address. The URL is sent to Audiova's server first, which temporarily downloads the media and returns it to you. Conversion then runs locally in your browser, then the download starts.",
           "Not every site works. Private, protected, or oversized content (over 100 MB) is refused. Only import content you have rights to.",
         ],
       },
       {
         question: "Is the converter free?",
         answer: [
-          "Yes. This version is free, with no account and no conversion quota. Each file must stay under 100 MB, and the queue accepts 5 files at most.",
+          "Yes. This version is free, with no account and no conversion quota. Each file must stay under 100 MB, and the queue accepts 20 files at most.",
         ],
       },
       {
@@ -266,7 +271,7 @@ export const en: Dictionary = {
       {
         question: "What is the maximum file size?",
         answer: [
-          "100 MB per file. Beyond that, the file is refused before conversion. Five files can be prepared, then they are converted one after another.",
+          "100 MB per file. Beyond that, the file is refused before conversion. Up to 20 files can be prepared, then they are converted one after another.",
         ],
       },
       {
@@ -279,7 +284,7 @@ export const en: Dictionary = {
       {
         question: "Can I convert several files at once?",
         answer: [
-          "Yes, up to 5. The same settings apply to the queue. Only one file is encoded at a time, to limit memory use.",
+          "Yes, up to 20. The same settings apply to the queue. Only one file is encoded at a time, to limit memory use.",
         ],
       },
       {
@@ -304,8 +309,9 @@ export const en: Dictionary = {
     ],
   },
   footer: {
-    description:
-      "In-browser audio converter. Your audio. Your format. Your freedom.",
+    description: "In-browser audio converter. Local conversion, no account.",
+    donate: "Buy me a coffee",
+    donateHint: "Support Audiova (ad-free via donation)",
     product: "Product",
     information: "Information",
     privacy: "Privacy",
@@ -339,7 +345,7 @@ export const en: Dictionary = {
         title: "History in the browser",
         paragraphs: [
           "If a conversion succeeds, the browser may store locally the output file name, date, format, bitrate, and sample rate. This data stays on the device. You can clear it from the history section.",
-          "Audio is not stored. History cannot download a file again.",
+          "Audio is not stored permanently. You can download again for about 30 minutes via the browser's local cache.",
         ],
       },
       {

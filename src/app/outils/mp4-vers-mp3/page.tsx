@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Convertisseur MP4 vers MP3",
   description: "Extrayez l’audio d’une vidéo MP4 vers MP3 gratuitement dans le navigateur.",
   alternates: { canonical: tool.href },
+  openGraph: {
+    title: "Convertisseur MP4 vers MP3",
+    description: "Extrayez l’audio d’une vidéo MP4 vers MP3 gratuitement dans le navigateur.",
+    url: tool.href,
+  },
 };
 
 export default function Page() {
@@ -26,7 +31,7 @@ export default function Page() {
         },
         {
           q: "Puis-je utiliser un lien vidéo ?",
-          a: "Oui via l’onglet Lien du convertisseur, pour les contenus que vous avez le droit de télécharger.",
+          a: "Oui via l’onglet Lien : l’URL est envoyée au serveur pour un téléchargement temporaire, puis la conversion reste locale. Les plateformes de streaming bloquées sont refusées.",
         },
       ]}
     />

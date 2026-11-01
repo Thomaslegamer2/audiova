@@ -2,7 +2,7 @@ export const fr = {
   meta: {
     title: "Audiova — Convertisseur MP3 en ligne gratuit",
     description:
-      "Convertissez un fichier audio en MP3 dans votre navigateur. WAV, FLAC, M4A, OGG et pistes vidéo. Gratuit, sans installation, sans envoi du fichier.",
+      "Convertissez WAV, FLAC, M4A, OGG ou une piste vidéo en MP3 dans votre navigateur. Gratuit, sans compte. Fichiers locaux sans téléversement ; import par lien via le serveur.",
     ogAlt: "Audiova, convertisseur audio vers MP3",
   },
   skip: "Aller au contenu",
@@ -19,16 +19,16 @@ export const fr = {
     discord: "Rejoindre Discord",
   },
   hero: {
-    slogan: "Your audio. Your format. Your freedom.",
-    titleLead: "Votre audio.",
-    titleRest: "En",
+    slogan: "Convertissez en MP3 en 3 clics, sans compte ni téléversement",
+    titleLead: "Votre audio",
+    titleRest: "en",
     titleAccent: "MP3",
-    titleEnd: ". Simplement.",
+    titleEnd: ".",
     subtitle:
-      "Convertissez vos fichiers audio en MP3 en quelques clics. Gratuitement, simplement et sans installation.",
+      "Conversion locale dans le navigateur. Vos fichiers restent sur votre appareil — sauf import par lien, qui passe par le serveur.",
     primary: "Convertir un fichier",
     secondary: "Découvrir les fonctionnalités",
-    points: ["Simple et rapide.", "Qualité audio réglable.", "Aucune installation nécessaire."],
+    points: ["Sans compte.", "Conversion locale (FFmpeg.wasm).", "Confidentialité pour vos fichiers."],
     monitor: "Moniteur",
     demo: "Signal de démonstration",
     demoHint: "Cette onde est dessinée à l'écran. Elle ne lit pas votre fichier.",
@@ -78,7 +78,10 @@ export const fr = {
     sourceUrl: "Lien",
     urlTitle: "Importer depuis un lien",
     urlText:
-      "Collez l'adresse d'une vidéo ou d'un morceau. Audiova récupère le média, puis vous choisissez la qualité avant de convertir et télécharger.",
+      "Collez l'adresse d'une vidéo ou d'un morceau. Le serveur Audiova télécharge temporairement le média, puis vous choisissez la qualité et la conversion se fait dans votre navigateur avant le téléchargement.",
+    urlServerNote:
+      "L'URL est envoyée au serveur Audiova, qui télécharge temporairement le média. La conversion se fait ensuite localement dans votre navigateur. Ce n'est pas un mode « sans envoi ».",
+    urlRightsConfirm: "Je confirme avoir les droits sur ce contenu",
     urlPlaceholder: "https://…",
     urlSubmit: "Importer le média",
     urlLoading: "Récupération du média…",
@@ -95,9 +98,9 @@ export const fr = {
     quality: "Qualité de sortie",
     qualityHint:
       "Choisissez avant de lancer. 320 kb/s est le maximum MP3 ; FLAC et WAV sont sans perte (meilleure fidélité, fichier plus lourd).",
-    presetLight: "Léger",
-    presetStandard: "Standard",
-    presetBest: "Meilleure MP3",
+    presetLight: "Podcast 128 kb/s",
+    presetStandard: "Équilibré 192 kb/s",
+    presetBest: "Qualité maximale 320 kb/s",
     presetLossless: "Sans perte",
     bestBadge: "Max",
     metadata: "Conserver les métadonnées",
@@ -127,17 +130,19 @@ export const fr = {
   },
   errors: {
     unsupported: "Ce format n'est pas pris en charge.",
-    damaged: "Le fichier semble endommagé.",
+    damaged: "Le fichier semble endommagé, corrompu ou illisible.",
     memory: "La mémoire disponible est insuffisante pour traiter ce fichier.",
     failed: "La conversion a échoué. Réessayez avec un autre fichier.",
     "too-large": "La taille du fichier dépasse la limite autorisée.",
     empty: "Le fichier est vide.",
-    "no-audio": "Aucune piste audio exploitable n'a été trouvée.",
+    "no-audio":
+      "Aucune piste audio exploitable n'a été trouvée (fichier protégé ou sans piste audio).",
     engine: "Le moteur audio n'a pas pu être chargé. Rechargez la page, puis réessayez.",
     "too-many": "Limite de fichiers atteinte. Les fichiers supplémentaires ont été ignorés.",
     timeout: "La conversion a dépassé le temps imparti. Essayez un fichier plus court.",
     "url-invalid": "Ce lien n'est pas valide.",
-    "url-blocked": "Cette adresse n'est pas autorisée.",
+    "url-blocked":
+      "Cette adresse n'est pas autorisée. Les plateformes de streaming ou de vidéo listées sont bloquées, et la confirmation de droits est obligatoire.",
     "url-fetch": "Le média n'a pas pu être récupéré. Vérifiez le lien, puis réessayez.",
     "url-unavailable": "Ce contenu n'est pas disponible ou n'est pas pris en charge.",
     "url-busy": "Un autre import depuis un lien est déjà en cours. Réessayez dans un instant.",
@@ -162,9 +167,9 @@ export const fr = {
     expired: "Fichier expiré — relancez une conversion pour le récupérer.",
   },
   features: {
-    title: "Un outil d'écoute, pas un formulaire",
+    title: "Convertissez en MP3 en 3 clics",
     intro:
-      "Audiova convertit localement, avec les réglages utiles et rien d'autre. Les promesses suivent ce que le moteur fait vraiment.",
+      "Audiova convertit localement les fichiers de votre appareil, avec les réglages utiles et rien d'autre. L'import par lien passe d'abord par le serveur, puis la conversion reste dans le navigateur.",
     items: [
       {
         title: "Conversion simplifiée",
@@ -224,14 +229,14 @@ export const fr = {
       {
         question: "Puis-je importer une vidéo ou une musique depuis un lien ?",
         answer: [
-          "Oui. Dans le convertisseur, ouvrez l'onglet Lien, collez l'adresse, puis cliquez sur Convertir et télécharger. Audiova récupère le média, le convertit, puis lance le téléchargement du fichier.",
-          "Tous les sites ne fonctionnent pas. Les contenus privés, protégés ou trop lourds (au-delà de 100 Mo) sont refusés. N'importez que des contenus pour lesquels vous avez les droits nécessaires.",
+          "Oui. Dans le convertisseur, ouvrez l'onglet Lien, confirmez que vous avez les droits sur le contenu, puis collez l'adresse. L'URL est envoyée au serveur Audiova, qui télécharge temporairement le média : ce n'est pas un mode « sans envoi ». La conversion se fait ensuite localement dans votre navigateur.",
+          "Les plateformes de streaming ou de vidéo dont les conditions interdisent le téléchargement sont bloquées. Les contenus privés, protégés ou trop lourds (au-delà de 100 Mo) sont refusés.",
         ],
       },
       {
         question: "Le convertisseur est-il gratuit ?",
         answer: [
-          "Oui. Cette version est gratuite, sans compte et sans quota de conversions. Chaque fichier doit rester sous 100 Mo, et la file accepte 5 fichiers au maximum.",
+          "Oui. Cette version est gratuite, sans compte et sans quota de conversions. Chaque fichier doit rester sous 100 Mo, et la file accepte 20 fichiers au maximum.",
         ],
       },
       {
@@ -264,7 +269,7 @@ export const fr = {
       {
         question: "Quelle est la taille maximale d'un fichier ?",
         answer: [
-          "100 Mo par fichier. Au-delà, le fichier est refusé avant la conversion. Cinq fichiers peuvent être préparés, puis ils sont convertis l'un après l'autre.",
+          "100 Mo par fichier. Au-delà, le fichier est refusé avant la conversion. Vingt fichiers peuvent être préparés, puis ils sont convertis l'un après l'autre.",
         ],
       },
       {
@@ -277,7 +282,7 @@ export const fr = {
       {
         question: "Puis-je convertir plusieurs fichiers à la fois ?",
         answer: [
-          "Oui, jusqu'à 5. Les mêmes réglages s'appliquent à la file. Un seul fichier est encodé à la fois, pour limiter la mémoire utilisée.",
+          "Oui, jusqu'à 20. Les mêmes réglages s'appliquent à la file. Un seul fichier est encodé à la fois, pour limiter la mémoire utilisée.",
         ],
       },
       {
@@ -302,8 +307,9 @@ export const fr = {
     ],
   },
   footer: {
-    description:
-      "Convertisseur audio dans le navigateur. Your audio. Your format. Your freedom.",
+    description: "Convertisseur audio dans le navigateur. Conversion locale, sans compte.",
+    donate: "Offrir un café",
+    donateHint: "Soutenir Audiova (version sans pub via don)",
     product: "Produit",
     information: "Informations",
     privacy: "Confidentialité",
@@ -329,15 +335,15 @@ export const fr = {
       {
         title: "Import depuis un lien",
         paragraphs: [
-          "Si vous collez une URL, le serveur de cette application récupère temporairement le média avec yt-dlp, le renvoie à votre navigateur, puis efface le fichier temporaire. Cette étape est nécessaire parce que la plupart des sites bloquent un téléchargement direct depuis le navigateur.",
-          "La conversion qui suit reste locale. N'utilisez cette fonction que pour des contenus que vous avez le droit de télécharger.",
+          "Contrairement au mode fichier, l'import par lien n'est pas « sans envoi » : l'URL est transmise au serveur Audiova, qui télécharge temporairement le média (yt-dlp), le renvoie à votre navigateur, puis efface le fichier temporaire. Cette étape est nécessaire parce que la plupart des sites bloquent un téléchargement direct depuis le navigateur.",
+          "La conversion qui suit reste locale. Les plateformes de streaming ou de vidéo dont les conditions interdisent le téléchargement sont bloquées. N'utilisez cette fonction que pour des contenus que vous avez le droit de télécharger, après avoir coché la confirmation de droits.",
         ],
       },
       {
         title: "Historique dans le navigateur",
         paragraphs: [
           "Si une conversion aboutit, le navigateur peut enregistrer localement le nom du fichier produit, la date, le format, le débit et la fréquence choisie. Ces données restent sur l'appareil. Vous pouvez les effacer depuis la section d'historique.",
-          "L'audio n'est pas stocké. L'historique ne permet pas de télécharger à nouveau un fichier.",
+          "L'audio n'est pas stocké de façon permanente. Un re-téléchargement reste possible environ 30 minutes via le cache local du navigateur.",
         ],
       },
       {

@@ -1,19 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_SITE_CONFIG, parseSiteConfig } from "@/lib/site-config";
+import { resolveAutomaticTheme } from "@/lib/theme-catalog";
 import { liveTools, TOOL_REGISTRY, toolBySlug } from "@/lib/tools/registry";
 
 describe("parseSiteConfig", () => {
-  it("returns defaults for empty input", () => {
+  it("returns defaults for empty input and uses automatic theme", () => {
     const config = parseSiteConfig(null);
-    expect(config.theme).toBe("default");
+    expect(config.theme).toBe(resolveAutomaticTheme());
     expect(config.adsEnabled).toBe(false);
     expect(config.analyticsEnabled).toBe(true);
     expect(config.urlImportEnabled).toBe(true);
     expect(config.discordEnabled).toBe(true);
     expect(config.localesEnabled.length).toBeGreaterThan(0);
+    expect(DEFAULT_SITE_CONFIG.adsEnabled).toBe(false);
   });
 
-  it("parses toggles and theme", () => {
+  it("parses toggles and ignores stored theme", () => {
     const config = parseSiteConfig(
       JSON.stringify({
         theme: "halloween",
@@ -24,7 +26,7 @@ describe("parseSiteConfig", () => {
         localesEnabled: ["fr", "en", "xx"],
       }),
     );
-    expect(config.theme).toBe("halloween");
+    expect(config.theme).toBe(resolveAutomaticTheme());
     expect(config.adsEnabled).toBe(true);
     expect(config.analyticsEnabled).toBe(false);
     expect(config.urlImportEnabled).toBe(false);
@@ -32,9 +34,9 @@ describe("parseSiteConfig", () => {
     expect(config.localesEnabled).toEqual(["fr", "en"]);
   });
 
-  it("rejects unknown themes", () => {
+  it("ignores unknown themes in stored JSON", () => {
     const config = parseSiteConfig(JSON.stringify({ theme: "neon-cyber" }));
-    expect(config.theme).toBe(DEFAULT_SITE_CONFIG.theme);
+    expect(config.theme).toBe(resolveAutomaticTheme());
   });
 });
 

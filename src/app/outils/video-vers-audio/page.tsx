@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Vidéo vers audio (MP4, MOV, WebM, MKV)",
   description: "Extrayez la piste audio d’une vidéo compatible vers MP3, WAV, FLAC, AAC, OGG ou M4A.",
   alternates: { canonical: tool.href },
+  openGraph: {
+    title: "Vidéo vers audio (MP4, MOV, WebM, MKV)",
+    description: "Extrayez la piste audio d’une vidéo compatible vers MP3, WAV, FLAC, AAC, OGG ou M4A.",
+    url: tool.href,
+  },
 };
 
 export default function Page() {

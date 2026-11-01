@@ -1,6 +1,5 @@
 import { postHeartbeat, pullConfig, controlAgentEnabled } from "@/lib/control-agent/client";
-import { writeSiteTheme } from "@/lib/site-config";
-import { isSiteTheme } from "@/lib/theme-catalog";
+import { writeSiteConfig } from "@/lib/site-config";
 
 const HEARTBEAT_MS = 60_000;
 const CONFIG_MS = 120_000;
@@ -29,12 +28,21 @@ async function tickConfig() {
     if (authority !== "hub") {
       return;
     }
-    const themeId = result.config.theme.activeId;
-    if (isSiteTheme(themeId)) {
-      await writeSiteTheme(themeId);
-    }
+    // Thème ignoré (automatique). Seuls les toggles hub utiles sont repris.
+    const flags = result.config as {
+      adsEnabled?: unknown;
+      analyticsEnabled?: unknown;
+      urlImportEnabled?: unknown;
+      discordEnabled?: unknown;
+    };
+    await writeSiteConfig({
+      adsEnabled: flags.adsEnabled === true,
+      analyticsEnabled: flags.analyticsEnabled !== false,
+      urlImportEnabled: flags.urlImportEnabled !== false,
+      discordEnabled: flags.discordEnabled !== false,
+    });
   } catch {
-    // hub unreachable — keep last local theme
+    // hub unreachable
   }
 }
 

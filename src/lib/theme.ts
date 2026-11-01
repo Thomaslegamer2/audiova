@@ -5,6 +5,8 @@ export {
   THEME_CATALOG,
   isSiteTheme,
   themeLabel,
+  resolveAutomaticTheme,
+  parisCivilDate,
   type SiteTheme,
   type ThemeMeta,
 } from "@/lib/theme-catalog";
@@ -18,6 +20,7 @@ export {
   type SiteConfig,
 } from "@/lib/site-config";
 
+/** @deprecated Plus utilisé — le thème est calendaire. */
 export const THEME_STORAGE_KEY = "audiova.site-theme";
 export const PUBLIC_THEME_PATH = "/audiova-theme.json";
 

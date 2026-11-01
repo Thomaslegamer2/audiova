@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { assertSameOrigin, isAdminAuthenticated } from "@/lib/admin/auth";
 import { isLocale, locales, type Locale } from "@/i18n";
-import { isSiteTheme } from "@/lib/theme-catalog";
 import { readSiteConfig, writeSiteConfig } from "@/lib/site-config";
 
 export async function GET() {
@@ -33,12 +32,7 @@ export async function POST(request: Request) {
   const record = body as Record<string, unknown>;
   const partial: Parameters<typeof writeSiteConfig>[0] = {};
 
-  if ("theme" in record) {
-    if (!isSiteTheme(record.theme)) {
-      return NextResponse.json({ error: "theme-invalid" }, { status: 400 });
-    }
-    partial.theme = record.theme;
-  }
+  // Le thème est calendaire : toute clé « theme » reçue est ignorée.
   if ("adsEnabled" in record) partial.adsEnabled = record.adsEnabled === true;
   if ("analyticsEnabled" in record) partial.analyticsEnabled = record.analyticsEnabled === true;
   if ("urlImportEnabled" in record) partial.urlImportEnabled = record.urlImportEnabled === true;

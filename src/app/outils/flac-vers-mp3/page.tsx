@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   title: "Convertisseur FLAC vers MP3",
   description: "Passez d’un FLAC sans perte à un MP3 portable, gratuitement et localement.",
   alternates: { canonical: tool.href },
+  openGraph: {
+    title: "Convertisseur FLAC vers MP3",
+    description: "Passez d’un FLAC sans perte à un MP3 portable, gratuitement et localement.",
+    url: tool.href,
+  },
 };
 
 export default function Page() {
