@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audiova — Pub vidéo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #050510;
+        --ink: #f4f6ff;
+        --muted: #9aa0b8;
+        --magenta: #d600ff;
+        --cyan: #00d1ff;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(ellipse 60% 40% at 15% 0%, rgba(214,0,255,.28), transparent 55%),
+          radial-gradient(ellipse 50% 35% at 90% 10%, rgba(0,209,255,.22), transparent 50%),
+          var(--bg);
+        color: var(--ink);
+        font-family: Manrope, Segoe UI, sans-serif;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .wrap { width: min(960px, 100%); }
+      h1 { margin: 0 0 8px; font-size: 1.4rem; }
+      p { margin: 0 0 18px; color: var(--muted); font-size: .95rem; }
+      video, .stage {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,.12);
+        background: #000;
+        overflow: hidden;
+        display: block;
+      }
+      .actions { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 10px; }
+      a, button {
+        appearance: none;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        color: #050510;
+        background: linear-gradient(120deg, var(--magenta), var(--cyan));
+      }
+      .ghost {
+        background: transparent;
+        color: var(--ink);
+        border: 1px solid rgba(255,255,255,.18);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Pub Audiova (11 s)</h1>
+      <p>Vidéo publicitaire prête à télécharger ou à partager. Formats : WAV · FLAC · M4A · OGG · MP4 → MP3.</p>
+      <video controls autoplay muted loop playsinline src="./audiova-pub.mp4"></video>
+      <div class="actions">
+        <a href="./audiova-pub.mp4" download="audiova-pub.mp4">Télécharger le MP4</a>
+        <a class="ghost" href="https://audiova.webgune.dev/" target="_blank" rel="noopener">Ouvrir le site</a>
+      </div>
+    </div>
+  </body>
+</html>
