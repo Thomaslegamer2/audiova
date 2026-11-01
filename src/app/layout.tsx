@@ -6,7 +6,6 @@ import { ThemeSync } from "@/components/layout/ThemeSync";
 import { AppProviders } from "@/components/providers";
 import { fr } from "@/i18n/fr";
 import { getSiteUrl } from "@/lib/site";
-import { resolveAutomaticTheme } from "@/lib/theme-catalog";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -61,11 +60,11 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const theme = resolveAutomaticTheme();
+  // Thème saisonnier appliqué côté client (ThemeSync) — pas de `new Date()` au prerender.
   return (
     <html
       lang="fr"
-      data-theme={theme}
+      data-theme="default"
       data-scroll-behavior="smooth"
       className={`${manrope.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
