@@ -53,6 +53,7 @@ export function Footer() {
             <DonateLink />
             {discordEnabled ? <DiscordLink label={t.nav.discord} showLabel className="px-3" /> : null}
           </div>
+          <p className="mt-3 text-xs text-muted">{t.footer.donateHint}</p>
         </div>
         <div>
           <p className="font-mono text-xs tracking-[0.16em] text-muted uppercase">{t.footer.product}</p>

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isLocale, localeLabels, locales } from "@/i18n";
+import { DonateLink } from "@/components/layout/DonateLink";
 import { Logo } from "@/components/layout/Logo";
 import { useFileBridge, useI18n, useLocale } from "@/components/providers";
 import { cn } from "@/lib/utils";
@@ -77,6 +78,7 @@ export function Navbar() {
           </Link>
         </nav>
         <div className="ml-auto flex min-w-0 items-center gap-2">
+          <DonateLink variant="nav" className="hidden sm:inline-flex" />
           <label>
             <span className="sr-only">{t.nav.language}</span>
             <select
@@ -120,12 +122,22 @@ export function Navbar() {
               <a
                 key={link.id}
                 href={hrefFor(link.id)}
-                className="border-b border-line py-3.5 text-base text-ink last:border-b-0"
+                className="border-b border-line py-3.5 text-base text-ink"
                 onClick={() => setOpen(false)}
               >
                 {t.nav[link.key]}
               </a>
             ))}
+            <Link
+              href="/outils"
+              className="border-b border-line py-3.5 text-base text-ink"
+              onClick={() => setOpen(false)}
+            >
+              Outils
+            </Link>
+            <div className="py-3.5">
+              <DonateLink variant="banner" className="w-full" />
+            </div>
           </div>
         </nav>
       ) : null}

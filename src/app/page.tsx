@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { AdSlot } from "@/components/layout/AdSlot";
+import { SupportBanner } from "@/components/layout/SupportBanner";
 import { Converter } from "@/components/converter/Converter";
 import { Hero } from "@/components/home/Hero";
 import { fr } from "@/i18n/fr";
@@ -38,6 +39,7 @@ export default function HomePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }} />
       <Hero />
       <Converter />
+      <SupportBanner />
       <AdSlot placement="below-converter" />
       <Features />
       <Formats />

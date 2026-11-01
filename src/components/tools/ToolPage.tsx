@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdSlot } from "@/components/layout/AdSlot";
+import { SupportBanner } from "@/components/layout/SupportBanner";
 import { Converter } from "@/components/converter/Converter";
 import { liveTools, type ToolDefinition } from "@/lib/tools/registry";
 
@@ -35,6 +36,7 @@ export function ToolPage({ tool, guide, faq }: { tool: ToolDefinition; guide: st
       </section>
 
       <Converter />
+      <SupportBanner />
       <AdSlot placement="content" />
 
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
