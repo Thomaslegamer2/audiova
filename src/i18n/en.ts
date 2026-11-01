@@ -39,11 +39,17 @@ export const en: Dictionary = {
     title: "Audio converter",
     dropTitle: "Drop your audio file",
     dropText: "Drag and drop your file here or browse your device.",
+    dropFolders: "Folders are accepted: audio/video files inside are added automatically.",
     choose: "Choose a file",
     fileInput: "Audio file selection",
     addMore: "Add files",
     limits: "{audio}. Video: {video}. {size} max, {count} files at a time.",
     queueTitle: "Files to convert",
+    queueSummary: "{count} in queue · {done} done",
+    queueReady: "{count} ready to convert",
+    queueWaiting: "Waiting in queue",
+    etaSeconds: "≈ {seconds} s left",
+    etaMinutes: "≈ {minutes} min left",
     remove: "Remove {name}",
     listenSource: "Listen to original",
     listenOutput: "Listen to result",
@@ -72,16 +78,15 @@ export const en: Dictionary = {
     cancelHint: "Canceling stops the current job. The engine will be reset.",
     sourceFile: "File",
     sourceUrl: "Link",
-    urlTitle: "Convert from a link",
+    urlTitle: "Import from a link",
     urlText:
-      "Paste the address of a video or track. Audiova fetches the media, converts it, then starts the file download.",
+      "Paste the address of a video or track. Audiova fetches the media, then you choose quality before converting and downloading.",
     urlPlaceholder: "https://…",
-    urlSubmit: "Convert and download",
+    urlSubmit: "Import media",
     urlLoading: "Fetching media…",
-    urlConverting: "Converting and preparing download…",
-    urlHint:
-      "Works with many pages supported by yt-dlp (YouTube, Vimeo, direct audio links…). Only use content you have the right to download. Limit: 100 MB.",
-    urlLegal: "You must hold the necessary rights to the imported content.",
+    urlConverting: "Converting…",
+    urlLegal:
+      "Important: you alone are responsible for the content you import or download. Audiova is in no way liable if you retrieve music or media you have not purchased or for which you lack the rights. Only use files you own or are authorized to convert.",
   },
   settings: {
     format: "Output format",
@@ -89,6 +94,14 @@ export const en: Dictionary = {
     bitrate: "Bitrate",
     sampleRate: "Sample rate",
     auto: "Auto",
+    quality: "Output quality",
+    qualityHint:
+      "Choose before you start. 320 kb/s is the max MP3 bitrate; FLAC and WAV are lossless (best fidelity, larger file).",
+    presetLight: "Light",
+    presetStandard: "Standard",
+    presetBest: "Best MP3",
+    presetLossless: "Lossless",
+    bestBadge: "Max",
     metadata: "Keep metadata",
     metadataHint: "Copies tags the engine can transfer. Cover art is not guaranteed.",
     identity: "Keep title and artist",
@@ -123,7 +136,7 @@ export const en: Dictionary = {
     empty: "The file is empty.",
     "no-audio": "No usable audio track was found.",
     engine: "The audio engine could not be loaded. Reload the page, then try again.",
-    "too-many": "Five files maximum. Extra files were ignored.",
+    "too-many": "File limit reached. Extra files were ignored.",
     timeout: "Conversion took too long. Try a shorter file.",
     "url-invalid": "This link is not valid.",
     "url-blocked": "This address is not allowed.",
@@ -143,10 +156,12 @@ export const en: Dictionary = {
   history: {
     title: "Recent conversions",
     intro:
-      "These rows stay in this browser: file name, date, format, and bitrate. Audio is not kept and cannot be downloaded again from this history.",
+      "Name, date, format, and bitrate stay in this browser. The converted file can be downloaded again for about 30 minutes, then the local cache expires.",
     empty: "No conversion saved on this device.",
     clear: "Clear history",
     sampleAuto: "Original sample rate",
+    downloadAgain: "Download again",
+    expired: "File expired — run a conversion again to get it back.",
   },
   features: {
     title: "A listening tool, not a form",
@@ -191,7 +206,7 @@ export const en: Dictionary = {
       },
       {
         title: "Choose your settings",
-        body: "MP3 is selected. Default bitrate is 192 kb/s. Sample rate can follow the source.",
+        body: "MP3 is selected. Default bitrate is 320 kb/s (best MP3 quality). Sample rate can follow the source.",
       },
       {
         title: "Download your MP3",
@@ -224,7 +239,7 @@ export const en: Dictionary = {
       {
         question: "What is the difference between 128, 192, and 320 kb/s?",
         answer: [
-          "Bitrate is how much data is kept each second. 128 kb/s makes a lighter file, fine for speech. 192 kb/s is the default, a good balance for music. 320 kb/s is the highest MP3 bitrate offered here: the file is heavier and stays closer to a detailed source.",
+          "Bitrate is how much data is kept each second. 128 kb/s makes a lighter file, fine for speech. 192 kb/s balances size and quality. 320 kb/s is the default and highest MP3 bitrate here. For the best fidelity, choose FLAC or WAV (lossless).",
           "Raising bitrate does not improve an original that is already compressed or damaged.",
         ],
       },
@@ -351,11 +366,11 @@ export const en: Dictionary = {
     ],
   },
   legal: {
-    metaTitle: "Legal notice",
-    metaDescription: "Information about the publisher, hosting, and software used by Audiova.",
-    title: "Legal notice",
+    metaTitle: "Legal notice & terms",
+    metaDescription: "Legal notice, terms of use, and liability for Audiova.",
+    title: "Legal notice & terms",
     intro:
-      "Audiova is an independent tool. No company, address, or registration number is shown here, because none exist for this project.",
+      "Audiova is an independent audio conversion tool. By using the site, you accept the rules below, especially regarding copyright.",
     sections: [
       {
         title: "Publisher",
@@ -366,13 +381,22 @@ export const en: Dictionary = {
       {
         title: "Hosting",
         paragraphs: [
-          "Hosting depends on where the site is deployed. The app itself does not impose a host. Audio conversion does not use that hosting: it runs in the visitor’s browser.",
+          "Hosting depends on where the site is deployed. Local conversion runs in the visitor’s browser. Link import may transit briefly through the server only to fetch the media.",
         ],
       },
       {
-        title: "Files and rights",
+        title: "Terms of use",
         paragraphs: [
-          "You must have the right to convert or download the files and links you import. Audiova does not check ownership and grants no reproduction license.",
+          "Audiova provides a technical converter. You alone are responsible for how you use it, the files you import, and the downloads you start.",
+          "You may not use Audiova to bypass protection measures, to pirate content, or to distribute protected works without authorization.",
+        ],
+      },
+      {
+        title: "Copyright and content",
+        paragraphs: [
+          "You must own the files, or hold the rights / licenses needed to convert or download them.",
+          "Audiova is in no way liable if you import or download music, videos, or other media you have not purchased, or for which you lack the rights.",
+          "Audiova does not verify ownership and grants no reproduction, communication, or download license.",
         ],
       },
       {
@@ -385,7 +409,9 @@ export const en: Dictionary = {
       {
         title: "Liability",
         paragraphs: [
-          "The tool is provided as is. A conversion may fail, produce a heavier file, or miss some metadata. Check the result before deleting the original.",
+          "The tool is provided as is, without warranty of availability, result integrity, or metadata preservation.",
+          "A conversion may fail, produce a heavier file, or be interrupted. Check the result before deleting the original.",
+          "To the extent permitted by law, Audiova and its publisher disclaim liability for damages related to unlawful content use, file loss, or service failure.",
         ],
       },
     ],

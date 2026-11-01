@@ -87,6 +87,7 @@ export function clearHistory(): void {
     // Le stockage local peut être bloqué.
   }
   if (typeof window !== "undefined") {
+    void import("@/lib/output-cache").then((mod) => mod.clearOutputBlobs()).catch(() => undefined);
     window.dispatchEvent(new Event(HISTORY_EVENT));
   }
 }

@@ -17,8 +17,9 @@ import {
   outputFormatFor,
   videoInputSummary,
 } from "@/lib/constants";
+import { collectDroppedFiles } from "@/lib/audio/collect-files";
 import { isVideoExtension, displayName } from "@/lib/audio/validation";
-import type { ConversionJob, ConversionOutput, ErrorCode } from "@/types/audio";
+import type { Bitrate, ConversionJob, ConversionOutput, ErrorCode, OutputFormatId } from "@/types/audio";
 import { fill, formatBitrate, formatBytes, formatDuration, formatHertz } from "@/lib/utils";
 
 const BLOCKED = new Set<ErrorCode>(["unsupported", "empty", "too-large", "url-invalid", "url-blocked"]);
@@ -95,7 +96,7 @@ export function Converter() {
   const [sourceMode, setSourceMode] = useState<"file" | "url">("file");
   const [urlValue, setUrlValue] = useState("");
   const [urlBusy, setUrlBusy] = useState(false);
-  const [urlPhase, setUrlPhase] = useState<"idle" | "fetch" | "convert">("idle");
+  const [urlPhase, setUrlPhase] = useState<"idle" | "fetch">("idle");
   const [urlError, setUrlError] = useState<ErrorCode | null>(null);
   const dragDepth = useRef(0);
 
@@ -154,6 +155,28 @@ export function Converter() {
     }
   };
 
+  const takeDrop = async (dataTransfer: DataTransfer) => {
+    const room = Math.max(0, MAX_FILES - queue.jobs.length);
+    if (room <= 0) {
+      return;
+    }
+    const files = await collectDroppedFiles(dataTransfer, room);
+    if (files.length > 0) {
+      takeFiles(files);
+    }
+  };
+
+  const formatEta = (seconds: number | null) => {
+    if (seconds == null) {
+      return null;
+    }
+    if (seconds < 60) {
+      return fill(t.converter.etaSeconds, { seconds });
+    }
+    const minutes = Math.max(1, Math.round(seconds / 60));
+    return fill(t.converter.etaMinutes, { minutes });
+  };
+
   const importFromUrl = async () => {
     if (urlBusy || queue.busy) {
       return;
@@ -194,14 +217,7 @@ export function Converter() {
       setPreview(null);
       queue.clearJobs();
       await queue.addFiles([file]);
-      setUrlPhase("convert");
-      const result = await queue.convertAll();
-      const output = result.done[0]?.output;
-      if (output) {
-        downloadOutput(output);
-      } else {
-        setUrlError(result.errorCode ?? "failed");
-      }
+      // Pas de conversion ni téléchargement auto : l’utilisateur choisit la qualité puis lance.
     } catch {
       setUrlError("url-fetch");
     } finally {
@@ -224,7 +240,7 @@ export function Converter() {
         </div>
 
         <div className="sr-only" aria-live="polite">
-          {live ? t.status[live as keyof typeof t.status] ?? live : urlPhase === "convert" ? t.converter.urlConverting : urlBusy ? t.converter.urlLoading : ""}
+          {live ? t.status[live as keyof typeof t.status] ?? live : urlBusy ? t.converter.urlLoading : ""}
         </div>
 
         {queue.notice ? (
@@ -273,6 +289,18 @@ export function Converter() {
           >
             <p className="text-xl font-semibold tracking-tight text-ink">{t.converter.urlTitle}</p>
             <p className="mt-2 max-w-xl text-sm leading-6 text-muted">{t.converter.urlText}</p>
+            <div className="mt-5">
+              <QualityControls
+                disabled={urlBusy || queue.busy}
+                format={queue.settings.format}
+                bitrate={queue.settings.bitrate}
+                onFormat={(format) => queue.updateSettings({ format })}
+                onBitrate={(bitrate) => queue.updateSettings({ bitrate })}
+                onPreset={(format, bitrate) => queue.updateSettings({ format, bitrate })}
+                t={t}
+                compact
+              />
+            </div>
             <label className="mt-5 block">
               <span className="sr-only">{t.converter.urlPlaceholder}</span>
               <input
@@ -298,13 +326,13 @@ export function Converter() {
               className="btn-brand mt-4 inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-base font-semibold sm:w-auto"
             >
               <Link2 className="size-4" aria-hidden="true" />
-              {urlPhase === "convert" ? t.converter.urlConverting : urlBusy ? t.converter.urlLoading : t.converter.urlSubmit}
+              {urlBusy ? t.converter.urlLoading : t.converter.urlSubmit}
             </button>
             {urlBusy ? (
               <div
                 className="indeterminate mt-4 h-1.5 rounded-full"
                 role="progressbar"
-                aria-label={urlPhase === "convert" ? t.converter.urlConverting : t.converter.urlLoading}
+                aria-label={t.converter.urlLoading}
               />
             ) : null}
             {urlError ? (
@@ -313,8 +341,7 @@ export function Converter() {
                 {t.errors[urlError]}
               </p>
             ) : null}
-            <p className="mt-4 text-xs leading-5 text-muted">{t.converter.urlHint}</p>
-            <p className="mt-2 text-xs leading-5 text-muted">{t.converter.urlLegal}</p>
+            <p className="mt-4 text-xs leading-5 text-muted">{t.converter.urlLegal}</p>
           </form>
         ) : null}
 
@@ -340,9 +367,7 @@ export function Converter() {
               event.preventDefault();
               dragDepth.current = 0;
               setDragOver(false);
-              if (event.dataTransfer.files.length > 0) {
-                takeFiles(event.dataTransfer.files);
-              }
+              void takeDrop(event.dataTransfer);
             }}
           >
             <span className="relative mx-auto grid size-16 place-items-center">
@@ -353,6 +378,7 @@ export function Converter() {
             </span>
             <p className="mt-6 text-xl font-semibold tracking-tight text-ink">{t.converter.dropTitle}</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-muted">{t.converter.dropText}</p>
+            <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-muted">{t.converter.dropFolders}</p>
             <button
               type="button"
               onClick={() => inputRef.current?.click()}
@@ -374,14 +400,32 @@ export function Converter() {
 
         {queue.jobs.length > 0 ? (
           <div>
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line bg-panel/40 px-5 py-3">
+              <p className="text-sm font-medium text-ink">
+                {fill(t.converter.queueSummary, {
+                  count: queue.jobs.length,
+                  done: doneJobs.length,
+                })}
+              </p>
+              {queue.busy && formatEta(queue.etaSeconds) ? (
+                <p className="font-mono text-xs text-glow">{formatEta(queue.etaSeconds)}</p>
+              ) : (
+                <p className="text-xs text-muted">
+                  {fill(t.converter.queueReady, { count: queue.convertibleCount })}
+                </p>
+              )}
+            </div>
             <ul className="divide-y divide-line">
-              {queue.jobs.map((job) => {
+              {queue.jobs.map((job, index) => {
                 const name = displayName(job.file.name);
                 const removable = job.status !== "converting" && job.status !== "finalizing" && job.status !== "queued";
                 const showPreview = preview?.id === job.id ? preview.target : null;
                 return (
                   <li key={job.id} className="px-5 py-4">
                     <div className="flex items-start gap-3">
+                      <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-panel font-mono text-xs text-glow">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
                       <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-panel text-glow">
                         {isVideoExtension(job.extension) ? <FileVideo className="size-4" aria-hidden="true" /> : <FileAudio className="size-4" aria-hidden="true" />}
                       </span>
@@ -409,12 +453,26 @@ export function Converter() {
                       </button>
                     </div>
 
-                    <p className="mt-3 text-sm text-muted">
-                      <span className={job.status === "error" ? "text-danger" : job.status === "done" ? "text-ok" : "text-ink"}>
+                    <div className="mt-3 flex flex-wrap items-center gap-2">
+                      <span
+                        className={[
+                          "inline-flex rounded-md border px-2 py-0.5 text-xs font-medium",
+                          job.status === "error"
+                            ? "border-danger/40 text-danger"
+                            : job.status === "done"
+                              ? "border-ok/40 text-ok"
+                              : job.status === "converting" || job.status === "finalizing"
+                                ? "border-signal/40 text-signal"
+                                : "border-line text-muted",
+                        ].join(" ")}
+                      >
                         {t.status[job.status]}
+                        {job.status === "converting" && job.progress != null ? ` · ${Math.round(job.progress * 100)} %` : ""}
                       </span>
-                      {job.status === "converting" && job.progress != null ? ` · ${Math.round(job.progress * 100)} %` : ""}
-                    </p>
+                      {job.status === "queued" ? (
+                        <span className="text-xs text-muted">{t.converter.queueWaiting}</span>
+                      ) : null}
+                    </div>
 
                     {job.status === "analyzing" ? <SlowBar label={t.status.analyzing} /> : null}
                     {job.status === "converting" || job.status === "finalizing" ? (
@@ -525,9 +583,7 @@ export function Converter() {
                 event.preventDefault();
                 dragDepth.current = 0;
                 setDragOver(false);
-                if (event.dataTransfer.files.length > 0) {
-                  takeFiles(event.dataTransfer.files);
-                }
+                void takeDrop(event.dataTransfer);
               }}
             >
               <button type="button" className="text-glow hover:text-ink" onClick={() => inputRef.current?.click()} disabled={queue.busy || queue.jobs.length >= MAX_FILES}>
@@ -539,56 +595,15 @@ export function Converter() {
 
         {workable.length > 0 ? (
           <fieldset disabled={queue.busy} className="space-y-6 border-t border-line px-5 py-6 disabled:opacity-60">
-            <div>
-              <p className="text-sm font-medium text-ink" id="format-label">{t.settings.format}</p>
-              <div role="group" aria-labelledby="format-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
-                {OUTPUT_FORMATS.map((item) => {
-                  const selected = queue.settings.format === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      aria-pressed={selected}
-                      onClick={() => queue.updateSettings({ format: item.id })}
-                      className={[
-                        "h-14 rounded-xl border text-sm font-semibold transition",
-                        selected ? "border-violet bg-violet/10 text-ink" : "border-line text-muted hover:border-glow/40 hover:text-ink",
-                      ].join(" ")}
-                    >
-                      {item.label}
-                      {item.id === "mp3" ? <span className="mt-0.5 block font-mono text-[10px] font-normal tracking-wide text-glow uppercase">{t.settings.principal}</span> : null}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {format.bitrate ? (
-              <div>
-                <p className="text-sm font-medium text-ink" id="bitrate-label">{t.settings.bitrate}</p>
-                <div role="group" aria-labelledby="bitrate-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
-                  {BITRATES.map((bitrate) => {
-                    const selected = queue.settings.bitrate === bitrate;
-                    return (
-                      <button
-                        key={bitrate}
-                        type="button"
-                        aria-pressed={selected}
-                        onClick={() => queue.updateSettings({ bitrate })}
-                        className={[
-                          "h-11 rounded-xl border font-mono text-sm transition",
-                          selected ? "border-violet bg-violet/10 text-ink" : "border-line text-muted hover:text-ink",
-                        ].join(" ")}
-                      >
-                        {formatBitrate(bitrate)}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            ) : (
-              <p className="text-sm text-muted">{t.converter.losslessHint}</p>
-            )}
+            <QualityControls
+              disabled={queue.busy}
+              format={queue.settings.format}
+              bitrate={queue.settings.bitrate}
+              onFormat={(next) => queue.updateSettings({ format: next })}
+              onBitrate={(bitrate) => queue.updateSettings({ bitrate })}
+              onPreset={(nextFormat, bitrate) => queue.updateSettings({ format: nextFormat, bitrate })}
+              t={t}
+            />
 
             <div>
               <p className="text-sm font-medium text-ink" id="rate-label">{t.settings.sampleRate}</p>
@@ -718,6 +733,151 @@ export function Converter() {
       </div>
       <HistoryPanel />
     </section>
+  );
+}
+
+function QualityControls({
+  disabled,
+  format,
+  bitrate,
+  onFormat,
+  onBitrate,
+  onPreset,
+  t,
+  compact = false,
+}: {
+  disabled: boolean;
+  format: OutputFormatId;
+  bitrate: Bitrate;
+  onFormat: (format: OutputFormatId) => void;
+  onBitrate: (bitrate: Bitrate) => void;
+  onPreset: (format: OutputFormatId, bitrate: Bitrate) => void;
+  t: ReturnType<typeof useI18n>;
+  compact?: boolean;
+}) {
+  const formatMeta = outputFormatFor(format);
+  const presets: Array<{ id: string; label: string; format: OutputFormatId; bitrate: Bitrate; active: boolean }> = [
+    {
+      id: "light",
+      label: t.settings.presetLight,
+      format: "mp3",
+      bitrate: 128,
+      active: format === "mp3" && bitrate === 128,
+    },
+    {
+      id: "standard",
+      label: t.settings.presetStandard,
+      format: "mp3",
+      bitrate: 192,
+      active: format === "mp3" && bitrate === 192,
+    },
+    {
+      id: "best",
+      label: t.settings.presetBest,
+      format: "mp3",
+      bitrate: 320,
+      active: format === "mp3" && bitrate === 320,
+    },
+    {
+      id: "lossless",
+      label: t.settings.presetLossless,
+      format: "flac",
+      bitrate: 320,
+      active: format === "flac" || format === "wav",
+    },
+  ];
+
+  return (
+    <div className={compact ? "space-y-4" : "space-y-6"}>
+      <div>
+        <p className="text-sm font-medium text-ink">{t.settings.quality}</p>
+        <p className="mt-1 text-xs leading-5 text-muted">{t.settings.qualityHint}</p>
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {presets.map((preset) => (
+            <button
+              key={preset.id}
+              type="button"
+              disabled={disabled}
+              aria-pressed={preset.active}
+              onClick={() => onPreset(preset.format, preset.bitrate)}
+              className={[
+                "h-11 rounded-xl border px-2 text-sm font-semibold transition",
+                preset.active ? "border-violet bg-violet/10 text-ink" : "border-line text-muted hover:text-ink",
+              ].join(" ")}
+            >
+              {preset.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="text-sm font-medium text-ink" id="format-label">{t.settings.format}</p>
+        <div role="group" aria-labelledby="format-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+          {OUTPUT_FORMATS.map((item) => {
+            const selected = format === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                disabled={disabled}
+                aria-pressed={selected}
+                onClick={() => onFormat(item.id)}
+                className={[
+                  "h-14 rounded-xl border text-sm font-semibold transition",
+                  selected ? "border-violet bg-violet/10 text-ink" : "border-line text-muted hover:border-glow/40 hover:text-ink",
+                ].join(" ")}
+              >
+                {item.label}
+                {item.id === "mp3" ? (
+                  <span className="mt-0.5 block font-mono text-[10px] font-normal tracking-wide text-glow uppercase">
+                    {t.settings.principal}
+                  </span>
+                ) : null}
+                {item.id === "flac" || item.id === "wav" ? (
+                  <span className="mt-0.5 block font-mono text-[10px] font-normal tracking-wide text-glow uppercase">
+                    {t.settings.bestBadge}
+                  </span>
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {formatMeta.bitrate ? (
+        <div>
+          <p className="text-sm font-medium text-ink" id="bitrate-label">{t.settings.bitrate}</p>
+          <div role="group" aria-labelledby="bitrate-label" className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+            {BITRATES.map((value) => {
+              const selected = bitrate === value;
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  disabled={disabled}
+                  aria-pressed={selected}
+                  onClick={() => onBitrate(value)}
+                  className={[
+                    "relative h-11 rounded-xl border font-mono text-sm transition",
+                    selected ? "border-violet bg-violet/10 text-ink" : "border-line text-muted hover:text-ink",
+                  ].join(" ")}
+                >
+                  {formatBitrate(value)}
+                  {value === 320 ? (
+                    <span className="absolute -top-2 right-1 rounded bg-glow/20 px-1 font-sans text-[9px] font-semibold tracking-wide text-glow uppercase">
+                      {t.settings.bestBadge}
+                    </span>
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <p className="text-sm text-muted">{t.converter.losslessHint}</p>
+      )}
+    </div>
   );
 }
 

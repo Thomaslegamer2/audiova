@@ -37,11 +37,17 @@ export const fr = {
     title: "Convertisseur audio",
     dropTitle: "Déposez votre fichier audio",
     dropText: "Glissez-déposez votre fichier ici ou parcourez votre appareil.",
+    dropFolders: "Les dossiers sont acceptés : les fichiers audio/vidéo à l’intérieur sont ajoutés automatiquement.",
     choose: "Choisir un fichier",
     fileInput: "Sélection des fichiers audio",
     addMore: "Ajouter des fichiers",
     limits: "{audio}. Vidéo : {video}. {size} maximum, {count} fichiers à la fois.",
     queueTitle: "Fichiers à convertir",
+    queueSummary: "{count} dans la file · {done} terminé(s)",
+    queueReady: "{count} prêt(s) à convertir",
+    queueWaiting: "En attente dans la file",
+    etaSeconds: "≈ {seconds} s restantes",
+    etaMinutes: "≈ {minutes} min restantes",
     remove: "Retirer {name}",
     listenSource: "Écouter l'original",
     listenOutput: "Écouter le résultat",
@@ -70,16 +76,15 @@ export const fr = {
     cancelHint: "L'annulation interrompt le traitement en cours. Le moteur sera réinitialisé.",
     sourceFile: "Fichier",
     sourceUrl: "Lien",
-    urlTitle: "Convertir depuis un lien",
+    urlTitle: "Importer depuis un lien",
     urlText:
-      "Collez l'adresse d'une vidéo ou d'un morceau. Audiova récupère le média, le convertit, puis lance le téléchargement du fichier.",
+      "Collez l'adresse d'une vidéo ou d'un morceau. Audiova récupère le média, puis vous choisissez la qualité avant de convertir et télécharger.",
     urlPlaceholder: "https://…",
-    urlSubmit: "Convertir et télécharger",
+    urlSubmit: "Importer le média",
     urlLoading: "Récupération du média…",
-    urlConverting: "Conversion et préparation du téléchargement…",
-    urlHint:
-      "Fonctionne avec de nombreuses pages prises en charge par yt-dlp (YouTube, Vimeo, liens audio directs…). Utilisez uniquement des contenus que vous avez le droit de télécharger. Limite : 100 Mo.",
-    urlLegal: "Vous devez disposer des droits nécessaires sur le contenu importé.",
+    urlConverting: "Conversion en cours…",
+    urlLegal:
+      "Important : vous êtes seul responsable des contenus que vous importez ou téléchargez. Audiova n’est en aucun cas responsable si vous récupérez des musiques ou médias que vous n’avez pas achetés ou pour lesquels vous n’avez pas les droits. Utilisez uniquement des fichiers dont vous êtes propriétaire ou que vous êtes autorisé à convertir.",
   },
   settings: {
     format: "Format de sortie",
@@ -87,6 +92,14 @@ export const fr = {
     bitrate: "Débit",
     sampleRate: "Fréquence",
     auto: "Auto",
+    quality: "Qualité de sortie",
+    qualityHint:
+      "Choisissez avant de lancer. 320 kb/s est le maximum MP3 ; FLAC et WAV sont sans perte (meilleure fidélité, fichier plus lourd).",
+    presetLight: "Léger",
+    presetStandard: "Standard",
+    presetBest: "Meilleure MP3",
+    presetLossless: "Sans perte",
+    bestBadge: "Max",
     metadata: "Conserver les métadonnées",
     metadataHint: "Recopie les balises que le moteur sait transférer. Les pochettes ne sont pas garanties.",
     identity: "Conserver le titre et l'artiste",
@@ -121,7 +134,7 @@ export const fr = {
     empty: "Le fichier est vide.",
     "no-audio": "Aucune piste audio exploitable n'a été trouvée.",
     engine: "Le moteur audio n'a pas pu être chargé. Rechargez la page, puis réessayez.",
-    "too-many": "Cinq fichiers maximum. Les fichiers supplémentaires ont été ignorés.",
+    "too-many": "Limite de fichiers atteinte. Les fichiers supplémentaires ont été ignorés.",
     timeout: "La conversion a dépassé le temps imparti. Essayez un fichier plus court.",
     "url-invalid": "Ce lien n'est pas valide.",
     "url-blocked": "Cette adresse n'est pas autorisée.",
@@ -141,10 +154,12 @@ export const fr = {
   history: {
     title: "Conversions récentes",
     intro:
-      "Ces lignes restent dans ce navigateur : nom du fichier, date, format et débit. L'audio n'est pas conservé et ne peut pas être téléchargé à nouveau depuis cet historique.",
+      "Nom, date, format et débit restent dans ce navigateur. Le fichier converti peut être re-téléchargé pendant environ 30 minutes, puis le cache local expire.",
     empty: "Aucune conversion enregistrée sur cet appareil.",
     clear: "Effacer l'historique",
     sampleAuto: "Fréquence d'origine",
+    downloadAgain: "Re-télécharger",
+    expired: "Fichier expiré — relancez une conversion pour le récupérer.",
   },
   features: {
     title: "Un outil d'écoute, pas un formulaire",
@@ -189,7 +204,7 @@ export const fr = {
       },
       {
         title: "Choisissez vos paramètres",
-        body: "MP3 est sélectionné. Le débit par défaut est 192 kb/s. La fréquence peut suivre la source.",
+        body: "MP3 est sélectionné. Le débit par défaut est 320 kb/s (meilleure qualité MP3). La fréquence peut suivre la source.",
       },
       {
         title: "Téléchargez votre MP3",
@@ -222,7 +237,7 @@ export const fr = {
       {
         question: "Quelle est la différence entre 128, 192 et 320 kb/s ?",
         answer: [
-          "Le débit est la quantité de données conservée chaque seconde. 128 kb/s donne un fichier plus léger, suffisant pour la voix. 192 kb/s est le réglage par défaut, un bon équilibre pour la musique. 320 kb/s est le débit MP3 le plus élevé proposé ici : le fichier est plus lourd et reste plus proche d'une source déjà détaillée.",
+          "Le débit est la quantité de données conservée chaque seconde. 128 kb/s donne un fichier plus léger, suffisant pour la voix. 192 kb/s est un bon équilibre taille / qualité. 320 kb/s est le débit MP3 par défaut et le plus élevé ici. Pour la meilleure fidélité possible, choisissez FLAC ou WAV (sans perte).",
           "Monter le débit n'améliore pas un original déjà compressé ou abîmé.",
         ],
       },
@@ -349,11 +364,11 @@ export const fr = {
     ],
   },
   legal: {
-    metaTitle: "Mentions légales",
-    metaDescription: "Informations sur l'éditeur, l'hébergement et les logiciels utilisés par Audiova.",
-    title: "Mentions légales",
+    metaTitle: "Mentions légales & conditions",
+    metaDescription: "Mentions légales, conditions d’utilisation et responsabilité liées à Audiova.",
+    title: "Mentions légales & conditions",
     intro:
-      "Audiova est un outil indépendant. Aucune société, aucune adresse et aucun numéro d'immatriculation ne sont présentés ici, parce qu'ils n'existent pas pour ce projet.",
+      "Audiova est un outil indépendant de conversion audio. En utilisant le site, vous acceptez les règles ci-dessous, notamment sur les droits d’auteur.",
     sections: [
       {
         title: "Éditeur",
@@ -364,13 +379,22 @@ export const fr = {
       {
         title: "Hébergement",
         paragraphs: [
-          "L'hébergement dépend de l'endroit où le site est déployé. L'application elle-même n'impose pas d'hébergeur. La conversion audio n'utilise pas cet hébergement : elle s'exécute dans le navigateur du visiteur.",
+          "L'hébergement dépend de l'endroit où le site est déployé. L'application elle-même n'impose pas d'hébergeur. La conversion locale s'exécute dans le navigateur du visiteur. L’import depuis un lien peut transiter temporairement par le serveur uniquement pour récupérer le média.",
         ],
       },
       {
-        title: "Fichiers et droits",
+        title: "Conditions d’utilisation",
         paragraphs: [
-          "Vous devez avoir le droit de convertir ou de télécharger les fichiers et liens que vous importez. Audiova ne vérifie pas la titularité des œuvres et ne fournit aucune autorisation de reproduction.",
+          "Audiova fournit un convertisseur technique. Vous êtes seul responsable de l’usage que vous en faites, des fichiers que vous importez et des téléchargements que vous lancez.",
+          "Il est interdit d’utiliser Audiova pour contourner des mesures de protection, pour pirater, ou pour distribuer des œuvres protégées sans autorisation.",
+        ],
+      },
+      {
+        title: "Droits d’auteur et contenus",
+        paragraphs: [
+          "Vous devez être propriétaire des fichiers, ou disposer des droits / licences nécessaires pour les convertir ou les télécharger.",
+          "Audiova n’est en aucun cas responsable si vous importez ou téléchargez des musiques, vidéos ou autres médias que vous n’avez pas achetés, ou pour lesquels vous n’avez pas les droits.",
+          "Audiova ne vérifie pas la titularité des œuvres et ne fournit aucune autorisation de reproduction, de communication au public ou de téléchargement.",
         ],
       },
       {
@@ -383,7 +407,9 @@ export const fr = {
       {
         title: "Responsabilité",
         paragraphs: [
-          "L'outil est fourni en l'état. Une conversion peut échouer, produire un fichier plus lourd, ou ne pas reprendre toutes les métadonnées. Vérifiez le résultat avant de supprimer l'original.",
+          "L'outil est fourni en l'état, sans garantie de disponibilité, d’intégrité du résultat ou de conservation des métadonnées.",
+          "Une conversion peut échouer, produire un fichier plus lourd, ou être interrompue. Vérifiez le résultat avant de supprimer l'original.",
+          "Dans les limites autorisées par la loi, Audiova et son éditeur déclinent toute responsabilité pour les dommages liés à un usage illicite des contenus, à une perte de fichiers, ou à un dysfonctionnement du service.",
         ],
       },
     ],

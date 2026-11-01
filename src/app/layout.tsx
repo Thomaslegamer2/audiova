@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist_Mono, Manrope } from "next/font/google";
+import { PwaRegister } from "@/components/layout/PwaRegister";
 import { SiteShell } from "@/components/layout/SiteShell";
 import { ThemeSync } from "@/components/layout/ThemeSync";
 import { AppProviders } from "@/components/providers";
@@ -29,6 +30,14 @@ export const metadata: Metadata = {
   },
   description: fr.meta.description,
   applicationName: "Audiova",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Audiova",
+  },
+  formatDetection: {
+    telephone: false,
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
@@ -63,6 +72,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <div className="atmosphere pointer-events-none fixed inset-0 z-0" aria-hidden="true" />
         <AppProviders>
           <ThemeSync />
+          <PwaRegister />
           <SiteShell>{children}</SiteShell>
         </AppProviders>
       </body>

@@ -37,6 +37,7 @@ interface SiteConfigState {
   adsEnabled: boolean;
   analyticsEnabled: boolean;
   urlImportEnabled: boolean;
+  discordEnabled: boolean;
   localesEnabled: string[];
 }
 
@@ -268,9 +269,15 @@ export function AdminConsole() {
                 checked={config.urlImportEnabled}
                 onChange={(urlImportEnabled) => void saveConfig({ urlImportEnabled })}
               />
+              <Toggle
+                label="Bouton Discord (pied de page)"
+                checked={config.discordEnabled}
+                onChange={(discordEnabled) => void saveConfig({ discordEnabled })}
+              />
               <p className="text-xs leading-5 text-muted">
-                Les publicités ne s’affichent que si cette option est active et que le visiteur a choisi « Tout accepter ».
-                Les thèmes se gèrent dans l’onglet Vue d’ensemble. Aucune statistique inventée : les compteurs restent à zéro sans trafic réel.
+                Discord n’apparaît plus dans la barre du haut (trop serré sur mobile) — uniquement en bas si l’option
+                est active. Les publicités ne s’affichent que si activées et après « Tout accepter ». Les thèmes se
+                gèrent dans Vue d’ensemble.
               </p>
             </div>
           )}

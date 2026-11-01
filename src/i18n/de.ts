@@ -39,11 +39,17 @@ export const de: Dictionary = {
     title: "Audio-Konverter",
     dropTitle: "Audiodatei ablegen",
     dropText: "Datei hierher ziehen oder Gerät durchsuchen.",
+    dropFolders: "Ordner sind erlaubt: Audio-/Videodateien darin werden automatisch hinzugefügt.",
     choose: "Datei wählen",
     fileInput: "Auswahl von Audiodateien",
     addMore: "Dateien hinzufügen",
     limits: "{audio}. Video: {video}. Maximal {size}, {count} Dateien gleichzeitig.",
     queueTitle: "Zu konvertierende Dateien",
+    queueSummary: "{count} in der Warteschlange · {done} fertig",
+    queueReady: "{count} bereit zur Konvertierung",
+    queueWaiting: "Wartet in der Warteschlange",
+    etaSeconds: "≈ {seconds} s verbleibend",
+    etaMinutes: "≈ {minutes} Min. verbleibend",
     remove: "{name} entfernen",
     listenSource: "Original anhören",
     listenOutput: "Ergebnis anhören",
@@ -72,16 +78,15 @@ export const de: Dictionary = {
     cancelHint: "Abbruch stoppt den laufenden Auftrag. Die Engine wird zurückgesetzt.",
     sourceFile: "Datei",
     sourceUrl: "Link",
-    urlTitle: "Von einem Link konvertieren",
+    urlTitle: "Von einem Link importieren",
     urlText:
-      "Fügen Sie die Adresse eines Videos oder Titels ein. Audiova holt das Medium, konvertiert es und startet den Download.",
+      "Fügen Sie die Adresse eines Videos oder Titels ein. Audiova holt das Medium; danach wählen Sie die Qualität vor Konvertierung und Download.",
     urlPlaceholder: "https://…",
-    urlSubmit: "Konvertieren und herunterladen",
+    urlSubmit: "Medium importieren",
     urlLoading: "Medium wird abgerufen…",
-    urlConverting: "Konvertierung und Download-Vorbereitung…",
-    urlHint:
-      "Funktioniert mit vielen von yt-dlp unterstützten Seiten (YouTube, Vimeo, direkte Audio-Links…). Nutzen Sie nur Inhalte, die Sie herunterladen dürfen. Limit: 100 MB.",
-    urlLegal: "Sie müssen die erforderlichen Rechte am importierten Inhalt besitzen.",
+    urlConverting: "Konvertierung…",
+    urlLegal:
+      "Wichtig: Sie allein sind für die Inhalte verantwortlich, die Sie importieren oder herunterladen. Audiova haftet in keinem Fall, wenn Sie Musik oder Medien abrufen, die Sie nicht gekauft haben oder für die Ihnen die Rechte fehlen. Nutzen Sie nur Dateien, die Ihnen gehören oder die Sie konvertieren dürfen.",
   },
   settings: {
     format: "Ausgabeformat",
@@ -89,6 +94,14 @@ export const de: Dictionary = {
     bitrate: "Bitrate",
     sampleRate: "Abtastrate",
     auto: "Auto",
+    quality: "Ausgabequalität",
+    qualityHint:
+      "Vor dem Start wählen. 320 kb/s ist die maximale MP3-Bitrate; FLAC und WAV sind verlustfrei (beste Treue, größere Datei).",
+    presetLight: "Leicht",
+    presetStandard: "Standard",
+    presetBest: "Bestes MP3",
+    presetLossless: "Verlustfrei",
+    bestBadge: "Max",
     metadata: "Metadaten behalten",
     metadataHint: "Kopiert Tags, die die Engine übertragen kann. Cover sind nicht garantiert.",
     identity: "Titel und Künstler behalten",
@@ -123,7 +136,7 @@ export const de: Dictionary = {
     empty: "Die Datei ist leer.",
     "no-audio": "Keine nutzbare Audiospur gefunden.",
     engine: "Die Audio-Engine konnte nicht geladen werden. Seite neu laden und erneut versuchen.",
-    "too-many": "Maximal fünf Dateien. Zusätzliche Dateien wurden ignoriert.",
+    "too-many": "Dateilimit erreicht. Zusätzliche Dateien wurden ignoriert.",
     timeout: "Die Konvertierung hat zu lange gedauert. Versuchen Sie eine kürzere Datei.",
     "url-invalid": "Dieser Link ist ungültig.",
     "url-blocked": "Diese Adresse ist nicht erlaubt.",
@@ -143,10 +156,12 @@ export const de: Dictionary = {
   history: {
     title: "Letzte Konvertierungen",
     intro:
-      "Diese Einträge bleiben in diesem Browser: Dateiname, Datum, Format und Bitrate. Audio wird nicht gespeichert und kann aus dem Verlauf nicht erneut heruntergeladen werden.",
+      "Name, Datum, Format und Bitrate bleiben in diesem Browser. Die konvertierte Datei kann etwa 30 Minuten erneut heruntergeladen werden, danach läuft der lokale Cache ab.",
     empty: "Keine Konvertierung auf diesem Gerät gespeichert.",
     clear: "Verlauf löschen",
     sampleAuto: "Original-Abtastrate",
+    downloadAgain: "Erneut herunterladen",
+    expired: "Datei abgelaufen — erneut konvertieren, um sie zu erhalten.",
   },
   features: {
     title: "Ein Hörwerkzeug, kein Formular",
@@ -350,41 +365,52 @@ export const de: Dictionary = {
     ],
   },
   legal: {
-    metaTitle: "Impressum",
-    metaDescription: "Informationen zu Herausgeber, Hosting und Software von Audiova.",
-    title: "Impressum",
+    metaTitle: "Impressum & Bedingungen",
+    metaDescription: "Impressum, Nutzungsbedingungen und Haftung für Audiova.",
+    title: "Impressum & Bedingungen",
     intro:
-      "Audiova ist ein unabhängiges Werkzeug. Hier werden keine Firma, Adresse oder Registernummer genannt, weil sie für dieses Projekt nicht existieren.",
+      "Audiova ist ein unabhängiges Audio-Konvertierungstool. Mit der Nutzung akzeptieren Sie die folgenden Regeln, insbesondere zum Urheberrecht.",
     sections: [
       {
         title: "Herausgeber",
         paragraphs: [
-          "Die Seite erscheint als persönliches, unabhängiges Werkzeug. Es gibt in dieser Version keine Firmenbezeichnung, keinen Sitz und keinen verantwortlichen Herausgeber anzugeben.",
+          "Die Website wird als persönliches, unabhängiges Tool veröffentlicht. Es gibt keine Firmenbezeichnung, keinen Sitz und keinen Veröffentlichungsleiter in dieser Version.",
         ],
       },
       {
         title: "Hosting",
         paragraphs: [
-          "Das Hosting hängt vom Einsatzort der Seite ab. Die App selbst schreibt keinen Host vor. Die Audiokonvertierung nutzt dieses Hosting nicht: sie läuft im Browser des Besuchers.",
+          "Das Hosting hängt davon ab, wo die Website bereitgestellt wird. Die lokale Konvertierung läuft im Browser des Besuchers. Link-Import kann kurz über den Server laufen, nur um das Medium abzurufen.",
         ],
       },
       {
-        title: "Dateien und Rechte",
+        title: "Nutzungsbedingungen",
         paragraphs: [
-          "Sie müssen das Recht haben, die importierten Dateien und Links zu konvertieren oder herunterzuladen. Audiova prüft keine Urheberschaft und erteilt keine Vervielfältigungserlaubnis.",
+          "Audiova stellt einen technischen Konverter bereit. Sie allein sind für die Nutzung, importierte Dateien und Downloads verantwortlich.",
+          "Es ist untersagt, Audiova zum Umgehen von Schutzmaßnahmen, zum Piratisieren oder zum Verbreiten geschützter Werke ohne Erlaubnis zu nutzen.",
         ],
       },
       {
-        title: "Drittanbieter-Software",
+        title: "Urheberrecht und Inhalte",
         paragraphs: [
-          "Die Konvertierung basiert auf FFmpeg für WebAssembly über das Paket @ffmpeg/core. Dieser Build unterliegt der GPL, insbesondere wegen libmp3lame für MP3. FFmpeg ist eine Marke des FFmpeg-Projekts.",
-          "Link-Import nutzt yt-dlp über youtube-dl-exec. Weitere UI-Bibliotheken stehen in den Projektabhängigkeiten.",
+          "Sie müssen Eigentümer der Dateien sein oder über die erforderlichen Rechte / Lizenzen verfügen.",
+          "Audiova haftet in keinem Fall, wenn Sie Musik, Videos oder andere Medien abrufen, die Sie nicht gekauft haben oder für die Ihnen Rechte fehlen.",
+          "Audiova prüft keine Eigentumsrechte und erteilt keine Reproduktions-, Kommunikations- oder Download-Lizenz.",
+        ],
+      },
+      {
+        title: "Drittsoftware",
+        paragraphs: [
+          "Die Konvertierung basiert auf FFmpeg (WebAssembly über @ffmpeg/core) unter der GPL, insbesondere wegen libmp3lame. FFmpeg ist eine Marke des FFmpeg-Projekts.",
+          "Link-Import nutzt yt-dlp über youtube-dl-exec. Weitere UI-Bibliotheken stehen in den Projektdependencies.",
         ],
       },
       {
         title: "Haftung",
         paragraphs: [
-          "Das Werkzeug wird wie besehen bereitgestellt. Eine Konvertierung kann scheitern, eine größere Datei erzeugen oder Metadaten fehlen lassen. Prüfen Sie das Ergebnis, bevor Sie das Original löschen.",
+          "Das Tool wird wie besehen bereitgestellt, ohne Gewähr für Verfügbarkeit, Ergebnisintegrität oder Metadaten.",
+          "Eine Konvertierung kann scheitern, eine schwerere Datei erzeugen oder abbrechen. Prüfen Sie das Ergebnis, bevor Sie das Original löschen.",
+          "Soweit gesetzlich zulässig, lehnen Audiova und der Herausgeber Haftung für Schäden durch rechtswidrige Inhaltsnutzung, Dateiverlust oder Dienstausfall ab.",
         ],
       },
     ],

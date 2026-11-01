@@ -42,6 +42,7 @@ export async function POST(request: Request) {
   if ("adsEnabled" in record) partial.adsEnabled = record.adsEnabled === true;
   if ("analyticsEnabled" in record) partial.analyticsEnabled = record.analyticsEnabled === true;
   if ("urlImportEnabled" in record) partial.urlImportEnabled = record.urlImportEnabled === true;
+  if ("discordEnabled" in record) partial.discordEnabled = record.discordEnabled === true;
   if ("localesEnabled" in record && Array.isArray(record.localesEnabled)) {
     const enabled = record.localesEnabled.filter((item): item is Locale => typeof item === "string" && isLocale(item));
     partial.localesEnabled = enabled.length > 0 ? enabled : [...locales];

@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { isLocale, localeLabels, locales } from "@/i18n";
-import { DiscordLink } from "@/components/layout/DiscordLink";
 import { Logo } from "@/components/layout/Logo";
 import { useFileBridge, useI18n, useLocale } from "@/components/providers";
 import { cn } from "@/lib/utils";
@@ -74,8 +73,7 @@ export function Navbar() {
             </a>
           ))}
         </nav>
-        <div className="ml-auto flex items-center gap-2">
-          <DiscordLink label={t.nav.discord} />
+        <div className="ml-auto flex min-w-0 items-center gap-2">
           <label>
             <span className="sr-only">{t.nav.language}</span>
             <select
@@ -85,7 +83,7 @@ export function Navbar() {
                   setLocale(event.target.value);
                 }
               }}
-              className="h-10 max-w-[9.5rem] rounded-lg border border-line bg-card px-2 text-sm text-ink sm:max-w-none"
+              className="h-10 max-w-[7.5rem] rounded-lg border border-line bg-card px-2 text-sm text-ink sm:max-w-none"
               aria-label={t.nav.language}
             >
               {locales.map((code) => (
@@ -98,7 +96,7 @@ export function Navbar() {
           {openControl}
           <button
             type="button"
-            className="grid size-10 place-items-center rounded-lg border border-line text-ink lg:hidden"
+            className="grid size-10 shrink-0 place-items-center rounded-lg border border-line text-ink lg:hidden"
             aria-expanded={open}
             aria-controls="menu-mobile"
             onClick={() => setOpen((value) => !value)}
@@ -125,9 +123,6 @@ export function Navbar() {
                 {t.nav[link.key]}
               </a>
             ))}
-            <div className="border-b border-line py-3 last:border-b-0">
-              <DiscordLink label={t.nav.discord} showLabel className="w-full justify-start px-3" />
-            </div>
           </div>
         </nav>
       ) : null}

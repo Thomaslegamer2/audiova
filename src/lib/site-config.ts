@@ -9,6 +9,7 @@ export interface SiteConfig {
   adsEnabled: boolean;
   analyticsEnabled: boolean;
   urlImportEnabled: boolean;
+  discordEnabled: boolean;
   localesEnabled: Locale[];
 }
 
@@ -22,6 +23,7 @@ export const DEFAULT_SITE_CONFIG: SiteConfig = {
   adsEnabled: false,
   analyticsEnabled: true,
   urlImportEnabled: true,
+  discordEnabled: true,
   localesEnabled: [...locales],
 };
 
@@ -40,6 +42,7 @@ export function parseSiteConfig(raw: string | null): SiteConfig {
     const adsEnabled = record.adsEnabled === true;
     const analyticsEnabled = record.analyticsEnabled !== false;
     const urlImportEnabled = record.urlImportEnabled !== false;
+    const discordEnabled = record.discordEnabled !== false;
     const localesEnabled = Array.isArray(record.localesEnabled)
       ? record.localesEnabled.filter((item): item is Locale => typeof item === "string" && isLocale(item))
       : [...locales];
@@ -49,6 +52,7 @@ export function parseSiteConfig(raw: string | null): SiteConfig {
       adsEnabled,
       analyticsEnabled,
       urlImportEnabled,
+      discordEnabled,
       localesEnabled: localesEnabled.length > 0 ? localesEnabled : [...locales],
     };
   } catch {
@@ -71,7 +75,13 @@ async function persist(config: SiteConfig): Promise<SiteConfig> {
   await writeFile(CONFIG_PATH, `${JSON.stringify(next, null, 2)}\n`, "utf8");
   await writeFile(
     PUBLIC_THEME_FILE,
-    `${JSON.stringify({ theme: next.theme, updatedAt: next.updatedAt, adsEnabled: next.adsEnabled, analyticsEnabled: next.analyticsEnabled })}\n`,
+    `${JSON.stringify({
+      theme: next.theme,
+      updatedAt: next.updatedAt,
+      adsEnabled: next.adsEnabled,
+      analyticsEnabled: next.analyticsEnabled,
+      discordEnabled: next.discordEnabled,
+    })}\n`,
     "utf8",
   );
   return next;

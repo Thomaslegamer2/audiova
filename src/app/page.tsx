@@ -8,7 +8,6 @@ import { getSiteUrl } from "@/lib/site";
 
 const Features = dynamic(() => import("@/components/home/Features").then((mod) => mod.Features));
 const Formats = dynamic(() => import("@/components/home/Formats").then((mod) => mod.Formats));
-const HowItWorks = dynamic(() => import("@/components/home/HowItWorks").then((mod) => mod.HowItWorks));
 const FAQ = dynamic(() => import("@/components/home/FAQ").then((mod) => mod.FAQ));
 
 export const metadata: Metadata = {
@@ -42,7 +41,6 @@ export default function HomePage() {
       <AdSlot placement="below-converter" />
       <Features />
       <Formats />
-      <HowItWorks />
       <FAQ />
     </main>
   );

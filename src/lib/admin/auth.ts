@@ -94,9 +94,56 @@ export function adminCookieOptions(maxAgeSeconds: number) {
   };
 }
 
+function normalizeOrigin(value: string): string | null {
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "http:" && url.protocol !== "https:") {
+      return null;
+    }
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+function forwardedOrigin(request: Request): string | null {
+  const protoRaw =
+    request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ||
+    (request.headers.get("x-forwarded-ssl") === "on" ? "https" : null);
+  const host =
+    request.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ||
+    request.headers.get("host")?.trim() ||
+    null;
+  if (!host) {
+    return null;
+  }
+  const proto = protoRaw === "http" || protoRaw === "https" ? protoRaw : "https";
+  return normalizeOrigin(`${proto}://${host}`);
+}
+
+function allowedOrigins(request: Request): Set<string> {
+  const allowed = new Set<string>();
+  const fromUrl = normalizeOrigin(request.url);
+  if (fromUrl) {
+    allowed.add(fromUrl);
+  }
+  const fromForwarded = forwardedOrigin(request);
+  if (fromForwarded) {
+    allowed.add(fromForwarded);
+  }
+  const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (site) {
+    const fromSite = normalizeOrigin(site);
+    if (fromSite) {
+      allowed.add(fromSite);
+    }
+  }
+  return allowed;
+}
+
 export function assertSameOrigin(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  if (!origin) {
+  const originHeader = request.headers.get("origin");
+  if (!originHeader) {
     // Same-origin navigations / certains clients n'envoient pas Origin.
     const secFetchSite = request.headers.get("sec-fetch-site");
     if (secFetchSite === "cross-site") {
@@ -104,10 +151,25 @@ export function assertSameOrigin(request: Request): boolean {
     }
     return true;
   }
-  try {
-    const requestHost = new URL(request.url).origin;
-    return origin === requestHost;
-  } catch {
+
+  const origin = normalizeOrigin(originHeader);
+  if (!origin) {
     return false;
   }
+
+  const allowed = allowedOrigins(request);
+  if (allowed.has(origin)) {
+    return true;
+  }
+
+  // Secours : Referer même hôte public (proxies qui réécrivent request.url en interne).
+  const referer = request.headers.get("referer");
+  if (referer) {
+    const refererOrigin = normalizeOrigin(referer);
+    if (refererOrigin && refererOrigin === origin && allowed.has(refererOrigin)) {
+      return true;
+    }
+  }
+
+  return false;
 }

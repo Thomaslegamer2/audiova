@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { DiscordLink } from "@/components/layout/DiscordLink";
 import { Logo } from "@/components/layout/Logo";
@@ -12,6 +13,34 @@ export function Footer() {
   const t = useI18n();
   const pathname = usePathname();
   const hrefFor = (id: string) => (pathname === "/" ? `#${id}` : `/#${id}`);
+  const [discordEnabled, setDiscordEnabled] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch(`/audiova-theme.json?ts=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok || cancelled) {
+          return;
+        }
+        const data: unknown = await response.json();
+        if (
+          !cancelled &&
+          data &&
+          typeof data === "object" &&
+          "discordEnabled" in data &&
+          (data as { discordEnabled?: unknown }).discordEnabled === false
+        ) {
+          setDiscordEnabled(false);
+        }
+      } catch {
+        // Keep Discord visible if public config is unreachable.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   return (
     <footer className="border-t border-line bg-panel/70">
@@ -19,9 +48,11 @@ export function Footer() {
         <div>
           <Logo size="footer" />
           <p className="mt-4 max-w-sm text-sm leading-6 text-muted">{t.footer.description}</p>
-          <div className="mt-5">
-            <DiscordLink label={t.nav.discord} showLabel className="px-3" />
-          </div>
+          {discordEnabled ? (
+            <div className="mt-5">
+              <DiscordLink label={t.nav.discord} showLabel className="px-3" />
+            </div>
+          ) : null}
         </div>
         <div>
           <p className="font-mono text-xs tracking-[0.16em] text-muted uppercase">{t.footer.product}</p>

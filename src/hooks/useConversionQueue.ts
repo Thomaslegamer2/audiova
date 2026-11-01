@@ -14,6 +14,7 @@ import {
 import { displayName, extensionOf, safeInputName, validateFile } from "@/lib/audio/validation";
 import { trackEvent } from "@/lib/analytics/client";
 import { writeHistory } from "@/lib/history";
+import { saveOutputBlob } from "@/lib/output-cache";
 import { MAX_FILES, DEFAULT_BITRATE } from "@/lib/constants";
 import type {
   ConversionJob,
@@ -44,6 +45,7 @@ export function useConversionQueue() {
   const [phase, setPhase] = useState<"idle" | "loading-engine" | "converting">("idle");
   const [engineLoad, setEngineLoad] = useState<EngineStage | null>(null);
   const [notice, setNotice] = useState<ErrorCode | null>(null);
+  const [avgConversionMs, setAvgConversionMs] = useState<number | null>(null);
 
   const jobsRef = useRef<ConversionJob[]>([]);
   const settingsRef = useRef(settings);
@@ -51,6 +53,8 @@ export function useConversionQueue() {
   const runningRef = useRef(false);
   const cancelRef = useRef(false);
   const mountedRef = useRef(true);
+  const avgMsRef = useRef<number | null>(null);
+  const avgSamplesRef = useRef(0);
 
   const commit = useCallback((next: ConversionJob[]) => {
     jobsRef.current = next;
@@ -305,15 +309,26 @@ export function useConversionQueue() {
             duration: job.metadata.duration,
           },
         });
+        const durationMs = Date.now() - startedAt;
         void trackEvent("conversion_ok", {
           formatIn: job.extension,
           formatOut: activeSettings.format,
           bytes: copy.byteLength,
-          durationMs: Date.now() - startedAt,
+          durationMs,
         });
+        const samples = avgSamplesRef.current;
+        const nextAvg =
+          samples === 0 ? durationMs : Math.round((avgMsRef.current! * samples + durationMs) / (samples + 1));
+        avgMsRef.current = nextAvg;
+        avgSamplesRef.current = samples + 1;
+        if (mountedRef.current) {
+          setAvgConversionMs(nextAvg);
+        }
         try {
+          const historyId = crypto.randomUUID();
+          await saveOutputBlob(historyId, blob, outputName);
           writeHistory({
-            id: crypto.randomUUID(),
+            id: historyId,
             fileName: outputName,
             convertedAt: new Date().toISOString(),
             format: activeSettings.format,
@@ -359,6 +374,33 @@ export function useConversionQueue() {
   const busy = phase !== "idle";
   const convertibleCount = jobs.filter(canConvert).length;
 
+  const etaSeconds = (() => {
+    if (!busy) {
+      return null;
+    }
+    const converting = jobs.find((job) => job.status === "converting" || job.status === "finalizing");
+    const queuedJobs = jobs.filter((job) => job.status === "queued");
+    const estimateFor = (job: ConversionJob | undefined) => {
+      if (avgConversionMs != null) {
+        return avgConversionMs;
+      }
+      const duration = job?.metadata.duration;
+      if (duration && duration > 0) {
+        return Math.round(duration * 350);
+      }
+      return 25_000;
+    };
+    const currentTotal = estimateFor(converting);
+    const currentRemain =
+      converting && converting.progress != null
+        ? currentTotal * Math.max(0, 1 - converting.progress)
+        : converting
+          ? currentTotal
+          : 0;
+    const queuedMs = queuedJobs.reduce((sum, job) => sum + estimateFor(job), 0);
+    return Math.max(1, Math.round((currentRemain + queuedMs) / 1000));
+  })();
+
   return {
     jobs,
     settings,
@@ -367,6 +409,8 @@ export function useConversionQueue() {
     notice,
     busy,
     convertibleCount,
+    avgConversionMs,
+    etaSeconds,
     updateSettings,
     addFiles,
     removeJob,

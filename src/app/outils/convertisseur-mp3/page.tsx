@@ -17,7 +17,7 @@ export default function Page() {
       tool={tool}
       guide={[
         "Ouvrez le convertisseur ci-dessous et ajoutez un fichier audio ou une vidéo.",
-        "Laissez MP3 sélectionné, puis choisissez un débit (192 kb/s par défaut).",
+        "Laissez MP3 sélectionné, puis choisissez un débit (320 kb/s par défaut — meilleure qualité MP3).",
         "Lancez la conversion : elle s’exécute dans votre navigateur.",
         "Téléchargez le fichier MP3 produit.",
       ]}
@@ -28,7 +28,7 @@ export default function Page() {
         },
         {
           q: "Quelle qualité choisir ?",
-          a: "192 kb/s convient à la plupart des usages. 128 kb/s pour la voix, 320 kb/s pour conserver plus de détail.",
+          a: "320 kb/s est le défaut (meilleure qualité MP3). 192 kb/s pour un bon équilibre, 128 kb/s pour la voix. FLAC/WAV pour du sans perte.",
         },
       ]}
     />

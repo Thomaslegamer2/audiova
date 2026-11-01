@@ -39,11 +39,17 @@ export const nl: Dictionary = {
     title: "Audio-converter",
     dropTitle: "Sleep je audiobestand",
     dropText: "Sleep je bestand hierheen of blader op je apparaat.",
+    dropFolders: "Mappen worden geaccepteerd: audio-/videobestanden erin worden automatisch toegevoegd.",
     choose: "Kies een bestand",
     fileInput: "Selectie van audiobestanden",
     addMore: "Bestanden toevoegen",
     limits: "{audio}. Video: {video}. Maximaal {size}, {count} bestanden tegelijk.",
     queueTitle: "Te converteren bestanden",
+    queueSummary: "{count} in de wachtrij · {done} klaar",
+    queueReady: "{count} klaar om te converteren",
+    queueWaiting: "Wacht in de wachtrij",
+    etaSeconds: "≈ {seconds} s resterend",
+    etaMinutes: "≈ {minutes} min resterend",
     remove: "{name} verwijderen",
     listenSource: "Origineel beluisteren",
     listenOutput: "Resultaat beluisteren",
@@ -72,16 +78,15 @@ export const nl: Dictionary = {
     cancelHint: "Annuleren stopt de lopende taak. De engine wordt gereset.",
     sourceFile: "Bestand",
     sourceUrl: "Link",
-    urlTitle: "Converteren vanaf een link",
+    urlTitle: "Importeren via een link",
     urlText:
-      "Plak het adres van een video of track. Audiova haalt het medium op, converteert het en start de download.",
+      "Plak het adres van een video of track. Audiova haalt het medium op; daarna kies je de kwaliteit vóór converteren en downloaden.",
     urlPlaceholder: "https://…",
-    urlSubmit: "Converteren en downloaden",
+    urlSubmit: "Medium importeren",
     urlLoading: "Medium ophalen…",
-    urlConverting: "Converteren en download voorbereiden…",
-    urlHint:
-      "Werkt met veel pagina's die yt-dlp ondersteunt (YouTube, Vimeo, directe audiolinks…). Gebruik alleen content die je mag downloaden. Limiet: 100 MB.",
-    urlLegal: "Je moet over de nodige rechten beschikken op de geïmporteerde content.",
+    urlConverting: "Converteren…",
+    urlLegal:
+      "Belangrijk: jij alleen bent verantwoordelijk voor de content die je importeert of downloadt. Audiova is op geen enkele wijze aansprakelijk als je muziek of media ophaalt die je niet hebt gekocht of waarvoor je geen rechten hebt. Gebruik alleen bestanden die van jou zijn of die je mag converteren.",
   },
   settings: {
     format: "Uitvoerformaat",
@@ -89,6 +94,14 @@ export const nl: Dictionary = {
     bitrate: "Bitrate",
     sampleRate: "Samplefrequentie",
     auto: "Auto",
+    quality: "Uitvoerkwaliteit",
+    qualityHint:
+      "Kies vóór je start. 320 kb/s is de maximale MP3-bitrate; FLAC en WAV zijn verliesvrij (beste getrouwheid, groter bestand).",
+    presetLight: "Licht",
+    presetStandard: "Standaard",
+    presetBest: "Beste MP3",
+    presetLossless: "Verliesvrij",
+    bestBadge: "Max",
     metadata: "Metadata behouden",
     metadataHint: "Kopieert tags die de engine kan overzetten. Covers zijn niet gegarandeerd.",
     identity: "Titel en artiest behouden",
@@ -123,7 +136,7 @@ export const nl: Dictionary = {
     empty: "Het bestand is leeg.",
     "no-audio": "Geen bruikbaar audiospoor gevonden.",
     engine: "De audio-engine kon niet worden geladen. Herlaad de pagina en probeer opnieuw.",
-    "too-many": "Maximaal vijf bestanden. Extra bestanden zijn genegeerd.",
+    "too-many": "Bestandslimiet bereikt. Extra bestanden zijn genegeerd.",
     timeout: "De conversie duurde te lang. Probeer een korter bestand.",
     "url-invalid": "Deze link is ongeldig.",
     "url-blocked": "Dit adres is niet toegestaan.",
@@ -143,10 +156,12 @@ export const nl: Dictionary = {
   history: {
     title: "Recente conversies",
     intro:
-      "Deze regels blijven in deze browser: bestandsnaam, datum, formaat en bitrate. Audio wordt niet bewaard en kan niet opnieuw vanuit deze geschiedenis worden gedownload.",
+      "Naam, datum, formaat en bitrate blijven in deze browser. Het geconverteerde bestand kan zo'n 30 minuten opnieuw worden gedownload; daarna verloopt de lokale cache.",
     empty: "Geen conversie opgeslagen op dit apparaat.",
     clear: "Geschiedenis wissen",
     sampleAuto: "Originele samplefrequentie",
+    downloadAgain: "Opnieuw downloaden",
+    expired: "Bestand verlopen — converteer opnieuw om het terug te krijgen.",
   },
   features: {
     title: "Een luistertool, geen formulier",
@@ -350,41 +365,52 @@ export const nl: Dictionary = {
     ],
   },
   legal: {
-    metaTitle: "Juridische vermelding",
-    metaDescription: "Informatie over uitgever, hosting en software van Audiova.",
-    title: "Juridische vermelding",
+    metaTitle: "Juridische vermelding & voorwaarden",
+    metaDescription: "Juridische vermelding, gebruiksvoorwaarden en aansprakelijkheid van Audiova.",
+    title: "Juridische vermelding & voorwaarden",
     intro:
-      "Audiova is een onafhankelijke tool. Hier staan geen bedrijf, adres of registratienummer, omdat die voor dit project niet bestaan.",
+      "Audiova is een onafhankelijke audio-converter. Door de site te gebruiken accepteer je de regels hieronder, vooral over auteursrecht.",
     sections: [
       {
         title: "Uitgever",
         paragraphs: [
-          "De site wordt gepubliceerd als persoonlijke, onafhankelijke tool. In deze versie is er geen handelsnaam, zetel of publicatiedirecteur te vermelden.",
+          "De site wordt gepubliceerd als persoonlijke, onafhankelijke tool. Er is geen handelsnaam, zetel of publicatiedirecteur te vermelden in deze versie.",
         ],
       },
       {
         title: "Hosting",
         paragraphs: [
-          "Hosting hangt af van waar de site wordt uitgerold. De app zelf legt geen host op. Audioconversie gebruikt die hosting niet: die draait in de browser van de bezoeker.",
+          "Hosting hangt af van waar de site wordt gedeployed. Lokale conversie draait in de browser van de bezoeker. Link-import kan kort via de server lopen, enkel om het medium op te halen.",
         ],
       },
       {
-        title: "Bestanden en rechten",
+        title: "Gebruiksvoorwaarden",
         paragraphs: [
-          "Je moet het recht hebben om de geïmporteerde bestanden en links te converteren of te downloaden. Audiova controleert geen eigendom en verleent geen reproductievergunning.",
+          "Audiova biedt een technische converter. Jij alleen bent verantwoordelijk voor het gebruik, geïmporteerde bestanden en downloads.",
+          "Het is verboden Audiova te gebruiken om beveiliging te omzeilen, te pirateren of beschermde werken zonder toestemming te verspreiden.",
+        ],
+      },
+      {
+        title: "Auteursrecht en content",
+        paragraphs: [
+          "Je moet eigenaar zijn van de bestanden of over de nodige rechten / licenties beschikken om ze te converteren of te downloaden.",
+          "Audiova is op geen enkele wijze aansprakelijk als je muziek, video's of andere media ophaalt die je niet hebt gekocht of waarvoor je geen rechten hebt.",
+          "Audiova controleert geen eigendom en verleent geen reproductie-, communicatie- of downloadlicentie.",
         ],
       },
       {
         title: "Software van derden",
         paragraphs: [
-          "Conversie steunt op FFmpeg voor WebAssembly via het pakket @ffmpeg/core. Die build valt onder de GPL, met name omdat libmp3lame voor MP3 is inbegrepen. FFmpeg is een merk van het FFmpeg-project.",
-          "Linkimport gebruikt yt-dlp via youtube-dl-exec. Andere UI-bibliotheken staan in de projectafhankelijkheden.",
+          "Conversie steunt op FFmpeg (WebAssembly via @ffmpeg/core) onder de GPL, met name door libmp3lame. FFmpeg is een merk van het FFmpeg-project.",
+          "Link-import gebruikt yt-dlp via youtube-dl-exec. Andere UI-bibliotheken staan in de projectdependencies.",
         ],
       },
       {
         title: "Aansprakelijkheid",
         paragraphs: [
-          "De tool wordt geleverd zoals hij is. Een conversie kan mislukken, een zwaarder bestand opleveren of metadata missen. Controleer het resultaat voordat je het origineel verwijdert.",
+          "De tool wordt geleverd zoals ze is, zonder garantie op beschikbaarheid, resultaatintegriteit of metadata.",
+          "Een conversie kan mislukken, een zwaarder bestand opleveren of onderbroken worden. Controleer het resultaat vóór je het origineel verwijdert.",
+          "Voor zover de wet toelaat, wijzen Audiova en de uitgever aansprakelijkheid af voor schade door onrechtmatig contentgebruik, bestandsverlies of dienstonderbreking.",
         ],
       },
     ],

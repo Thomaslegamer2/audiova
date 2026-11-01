@@ -9,6 +9,7 @@ describe("parseSiteConfig", () => {
     expect(config.adsEnabled).toBe(false);
     expect(config.analyticsEnabled).toBe(true);
     expect(config.urlImportEnabled).toBe(true);
+    expect(config.discordEnabled).toBe(true);
     expect(config.localesEnabled.length).toBeGreaterThan(0);
   });
 
@@ -19,6 +20,7 @@ describe("parseSiteConfig", () => {
         adsEnabled: true,
         analyticsEnabled: false,
         urlImportEnabled: false,
+        discordEnabled: false,
         localesEnabled: ["fr", "en", "xx"],
       }),
     );
@@ -26,6 +28,7 @@ describe("parseSiteConfig", () => {
     expect(config.adsEnabled).toBe(true);
     expect(config.analyticsEnabled).toBe(false);
     expect(config.urlImportEnabled).toBe(false);
+    expect(config.discordEnabled).toBe(false);
     expect(config.localesEnabled).toEqual(["fr", "en"]);
   });
 

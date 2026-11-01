@@ -3,13 +3,15 @@ import { BITRATES, SAMPLE_RATES, type Bitrate, type OutputFormatId, type SampleR
 export { BITRATES, SAMPLE_RATES };
 
 export const MAX_FILE_BYTES = 100 * 1024 * 1024;
-export const MAX_FILES = 5;
+export const MAX_FILES = 20;
 export const MAX_HISTORY = 12;
+/** Durée de conservation des blobs pour re-téléchargement depuis l'historique. */
+export const OUTPUT_CACHE_TTL_MINUTES = 30;
 export const CONVERSION_TIMEOUT_MS = 15 * 60 * 1000;
 export const WAVEFORM_MAX_BYTES = 6 * 1024 * 1024;
 export const COPYRIGHT_YEAR = 2026;
 
-export const DEFAULT_BITRATE: Bitrate = 192;
+export const DEFAULT_BITRATE: Bitrate = 320;
 
 export interface InputFormat {
   id: string;
