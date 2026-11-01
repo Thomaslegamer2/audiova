@@ -1,7 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
-
 type Ctx = { params: Promise<{ size: string }> };
 
 export async function GET(_request: Request, ctx: Ctx) {
