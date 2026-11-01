@@ -74,6 +74,9 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  verification: {
+    google: "hIP2eIUJIvmLMQr3tq4amcosOtYXH5P852Bj9sZUfr0",
+  },
 };
 
 export const viewport: Viewport = {
