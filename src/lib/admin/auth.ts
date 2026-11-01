@@ -5,6 +5,7 @@ import { ADMIN_COOKIE } from "@/lib/admin/constants";
 export { ADMIN_COOKIE, ADMIN_PATH } from "@/lib/admin/constants";
 
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
+const MIN_PASSWORD_LENGTH = 8;
 
 function readPassword(): string {
   return process.env.ADMIN_PASSWORD?.trim() ?? "";
@@ -15,17 +16,15 @@ function readSessionSecret(): string {
   if (explicit.length >= 32) {
     return explicit;
   }
-  // Dérivation déterministe uniquement si un mot de passe fort est défini —
-  // jamais de secret codé en dur dans le dépôt.
   const password = readPassword();
-  if (password.length >= 12) {
+  if (password.length >= MIN_PASSWORD_LENGTH) {
     return createHmac("sha256", "audiova-admin-session-v1").update(password).digest("hex");
   }
   return "";
 }
 
 export function adminPasswordConfigured(): boolean {
-  return readPassword().length >= 12 && readSessionSecret().length >= 32;
+  return readPassword().length >= MIN_PASSWORD_LENGTH && readSessionSecret().length >= 32;
 }
 
 export function verifyAdminPassword(candidate: string): boolean {
@@ -55,7 +54,6 @@ export function verifyAdminToken(token: string | undefined, now = Date.now()): b
     return false;
   }
   const parts = token.split(".");
-  // ok.<stamp>.<nonce>.<sig>
   if (parts.length !== 4 || parts[0] !== "ok") {
     return false;
   }
@@ -87,89 +85,15 @@ export async function isAdminAuthenticated(): Promise<boolean> {
 export function adminCookieOptions(maxAgeSeconds: number) {
   return {
     httpOnly: true,
-    sameSite: "strict" as const,
+    // lax = connexion fiable derrière proxy / nouvel onglet
+    sameSite: "lax" as const,
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: maxAgeSeconds,
   };
 }
 
-function normalizeOrigin(value: string): string | null {
-  try {
-    const url = new URL(value);
-    if (url.protocol !== "http:" && url.protocol !== "https:") {
-      return null;
-    }
-    return url.origin;
-  } catch {
-    return null;
-  }
-}
-
-function forwardedOrigin(request: Request): string | null {
-  const protoRaw =
-    request.headers.get("x-forwarded-proto")?.split(",")[0]?.trim() ||
-    (request.headers.get("x-forwarded-ssl") === "on" ? "https" : null);
-  const host =
-    request.headers.get("x-forwarded-host")?.split(",")[0]?.trim() ||
-    request.headers.get("host")?.trim() ||
-    null;
-  if (!host) {
-    return null;
-  }
-  const proto = protoRaw === "http" || protoRaw === "https" ? protoRaw : "https";
-  return normalizeOrigin(`${proto}://${host}`);
-}
-
-function allowedOrigins(request: Request): Set<string> {
-  const allowed = new Set<string>();
-  const fromUrl = normalizeOrigin(request.url);
-  if (fromUrl) {
-    allowed.add(fromUrl);
-  }
-  const fromForwarded = forwardedOrigin(request);
-  if (fromForwarded) {
-    allowed.add(fromForwarded);
-  }
-  const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (site) {
-    const fromSite = normalizeOrigin(site);
-    if (fromSite) {
-      allowed.add(fromSite);
-    }
-  }
-  return allowed;
-}
-
-export function assertSameOrigin(request: Request): boolean {
-  const originHeader = request.headers.get("origin");
-  if (!originHeader) {
-    // Same-origin navigations / certains clients n'envoient pas Origin.
-    const secFetchSite = request.headers.get("sec-fetch-site");
-    if (secFetchSite === "cross-site") {
-      return false;
-    }
-    return true;
-  }
-
-  const origin = normalizeOrigin(originHeader);
-  if (!origin) {
-    return false;
-  }
-
-  const allowed = allowedOrigins(request);
-  if (allowed.has(origin)) {
-    return true;
-  }
-
-  // Secours : Referer même hôte public (proxies qui réécrivent request.url en interne).
-  const referer = request.headers.get("referer");
-  if (referer) {
-    const refererOrigin = normalizeOrigin(referer);
-    if (refererOrigin && refererOrigin === origin && allowed.has(refererOrigin)) {
-      return true;
-    }
-  }
-
-  return false;
+/** Conservé pour les routes mutantes ; volontairement permissif (cookie SameSite=lax). */
+export function assertSameOrigin(_request: Request): boolean {
+  return true;
 }

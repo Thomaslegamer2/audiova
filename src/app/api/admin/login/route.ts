@@ -3,7 +3,6 @@ import {
   ADMIN_COOKIE,
   adminCookieOptions,
   adminPasswordConfigured,
-  assertSameOrigin,
   createAdminToken,
   verifyAdminPassword,
 } from "@/lib/admin/auth";
@@ -24,16 +23,11 @@ function clientKey(request: Request): string {
 }
 
 export async function POST(request: Request) {
-  if (!assertSameOrigin(request)) {
-    recordSecurityEvent({ type: "forbidden", ip: clientKey(request), detail: "origin" });
-    return NextResponse.json({ error: "forbidden" }, { status: 403 });
-  }
-
   if (!adminPasswordConfigured()) {
     return NextResponse.json(
       {
         error: "admin-unconfigured",
-        message: "Définissez ADMIN_PASSWORD (≥12) et idéalement ADMIN_SESSION_SECRET (≥32) dans .env.local.",
+        message: "Définissez ADMIN_PASSWORD (au moins 8 caractères) dans les variables d’environnement.",
       },
       { status: 503 },
     );

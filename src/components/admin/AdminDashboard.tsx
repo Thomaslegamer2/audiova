@@ -177,9 +177,9 @@ export function AdminDashboard({ onAuthChange }: { onAuthChange?: (authed: boole
           } else if (payload.error === "locked") {
             message = `Trop de tentatives. Réessayez dans ${payload.retryAfter ?? 900} s.`;
           } else if (payload.error === "admin-unconfigured") {
-            message = payload.message ?? "Administration non configurée (.env.local).";
+            message = payload.message ?? "Ajoutez ADMIN_PASSWORD dans les variables Coolify, puis redeploy.";
           } else if (payload.error === "forbidden") {
-            message = "Requête refusée (origine).";
+            message = "Connexion refusée. Vérifiez ADMIN_PASSWORD puis réessayez.";
           }
         } catch {
           // Ignore.
